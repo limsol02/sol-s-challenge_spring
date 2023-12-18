@@ -22,6 +22,6 @@ public class A02_RestartController {
 	 * */
 	@RequestMapping("restart.do")
 	public String restart() {
-		return "WEB-INF\\views\\a02_restart.jsp";
+		return "WEB-INF\\views\\a01_start\\a02_restart.jsp";
 	}
 }

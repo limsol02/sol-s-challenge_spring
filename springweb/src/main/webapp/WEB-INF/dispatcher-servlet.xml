@@ -36,4 +36,6 @@
        -->
       <bean class="springweb.a01_start.A01_StartController"/>
       <bean class="springweb.a01_start.A02_RestartController"/>
+      <bean class="springweb.a01_start.A03_ParamObjectModel"/>
+      <bean class="springweb.z01_homework.A1218"/>
 </beans>      

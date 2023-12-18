@@ -44,15 +44,25 @@
 
 <body>
 <div class="jumbotron text-center">
-  <h2>뭔말인지 모르곘다!!</h2>
+  <c:if test="${not empty person.name}">
+  <h2>객체로 요청값 받은 데이터</h2>
+  <h3>${param.name}</h3>
+  <h3>${param.age}</h3>
+  <h3>${param.loc}</h3>
+  <%-- 객체의 매개변수는 default로 모델값도 지원된다. 객체의 기본 소문자로 param.name
+  	==> 모델데이터 처리까지 자동으로 처리된다. 
+  	useBean 기본적으로 객체의 소문자 참조변수로 처리된다. Person --> person 
+  --%>
+  </c:if>
 
 </div>
 <%----%>
 <div class="container">
    <form id="frm01" class="form"  method="post">
      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-       <input class="form-control mr-sm-2" placeholder="제목" />
-       <input class="form-control mr-sm-2" placeholder="내용" />
+       <input class="form-control mr-sm-2" placeholder="이름" name="name"/>
+       <input class="form-control mr-sm-2" placeholder="나이" name="age"/>
+       <input class="form-control mr-sm-2" placeholder="지역" name="loc"/>
        <button class="btn btn-info" type="submit">Search</button>
        <button class="btn btn-success" 
           data-toggle="modal" data-target="#exampleModalCenter"

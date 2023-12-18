@@ -124,8 +124,48 @@
 
 5. WEB-INF 하위 views 폴드 밑에 start.do 에 의해 호출할 view단 jsp호출..
 	
+# 스프링 MVC 단계별 연습 내용
+1. 기본 스프링 화면 호출
+	1) 클래스 만들기, @Controller선언
 	
+	2) 컨테이너에 등록 (dispatcher-servlet.xml)
 	
+	3) 해당 컨트롤러의 url 기능 메서드 등록
+		1] url 패턴 선언
+		2] 기능 메서드 선언
+		3] view단 url 할당
 	
+	4) view단 선언(화면던 호출 jsp 선언) webapp/WEB-INF/views/a01_start.jsp
 	
+	5) controller 리턴
+
+2. 요청값 처리
+	1) 단일 요청값
+		- 기본 : ?name=홍길동
+		@RequestParam("name") String name
+		
+		- 요청값이 없을 때, 처리 : ?age=25,   age=
+		@RequestParam(value="age",defaultValue="0") int age
+		
+	2) 다중 요청값 처리
+		@RequestParam("name") String name,
+		@RequestParam("age") int age,
+		@RequestParam("loc") String loc
+		
+	3) 객체형 요청값 처리(useBean의 처리와 동일하게 처리된다)
+		요청값 + 모델데이터
+	
+3. 모델 데이터 처리
+	1) view단에 넘길 핵심 데이터에 대한 처리.
+		public String start([요청값 처리영역, Model d]){
+			d.addAttribute("모델명",모델데이터(객체포함));
+			return "";
+		}
+	
+4. 뷰단 호출 처리
+	1) 마지막에 return '뷰단'은 request, response값이 다 넘어가는 forward 방식의 값이다. 
+		그래서, 모델 데이터를 처리할 수 있다.
+	
+	2) forward 방식이 아닐 경우
+		return "redirect://@@@@"로 선언하면 된다. 
 	
