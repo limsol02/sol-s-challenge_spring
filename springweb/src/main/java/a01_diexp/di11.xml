@@ -34,9 +34,25 @@
       <!-- 상단은 앞으로 xml 태그의 형식을 지정하는 부분
       호출할 때, 컨테이너에서 찾을 수 있는 객체의 범위안에 설정이 됨..
        -->
-      <bean class="springweb.a01_start.A01_StartController"/>
-      <bean class="springweb.a01_start.A02_RestartController"/>
-      <bean class="springweb.a01_start.A03_ParamObjectModel"/>
-      <bean class="springweb.z01_homework.A1218"/>
-      <bean class="springweb.z01_homework.A1219"/>
+      <bean id="p01" class="a01_diexp.z01_vo.Person">
+      	<property name="name" value="홍길동"/>
+      	<property name="age" value="25"/>
+      	<property name="loc" value="서울"/>
+      </bean>
+      
+      <!-- 
+      ex1) Product 클래스 객체 생성 prod01
+      ex2) Food(추가) food01 
+       -->
+      <bean id="prod01" class="a01_diexp.z01_vo.Product">
+      	<property name="pname" value="사과"/>
+      	<property name="price" value="3000"/>
+      	<property name="cnt" value="3"/>
+      </bean>
+      
+      <bean id="food01" class="a01_diexp.z01_vo.Food">
+      	<property name="fname" value="피자"/>
+      	<property name="price" value="25800"/>
+      	<property name="cnt" value="1"/>
+      </bean>
 </beans>      

@@ -1,7 +1,12 @@
 # 스프링의 내용 계열화
 1. 스프링의 기본 개념들
 	1) 컨테이너
-	2) 스프링 MVC
+		기본적인 controller, service, dao
+		외부라이브러리/ 프레임워크 사용(파일업로드, 다운로드, ajax(json))
+		/ 소켙통신으로 통신 실시간 채팅/ 메일발송 / mybatis DB처리..
+		각 객체들간의 연동관계 / 자동 연동처리(autowire)
+	2) 스프링 MVC(화면에 보이는 처리)
+		모델2형식
 	3) DI
 	4) AOP
 	5) 스프링 처리 구축
@@ -11,6 +16,23 @@
 	2) spring boot 환경 설정
 	
 3. 스프링에서 발생하는 에러 유형에 대한 처리 방법
+	0) 기본형식 check
+		- controller
+			1] @Controller : 선언여부
+			
+			2] @RuquestMapping("start.do") : 동일한지
+			
+			3] public String start(@RequestParam("name") String name, @RequestParam("age") int age) : 요청이름이 정확하고, 타입이 맞는지
+								   객체인 경우 Person p01 : property/ 매개타입 맞는지
+			
+			4] (모델인경우) d.Attribute("모델명",객체/데이터) : 모델명 정확한지			   
+			
+			5] 			return "wabapp/WEB-INF/views/start.jsp"; : 뷰단 경로가 동일한지(앵간하면 경로는 복사해서 쓰자)
+			
+			6] dispatcher-servlet.xml
+			만약에 내가 Controller 를 StartController.java로 해놓으면 
+				<bean class="" (id="StartController"->id 디폴트 자동설정)/> : 클래스 패키지명으로 등록이 되어 있는지?
+ 
 	1) xml에서 controller 등록이 안 되어 있으면 404 에러 발생
 	
 	2) RequestMappong 안에 url 패턴은 서버에 동일하게 있으면 안된다.
@@ -23,6 +45,27 @@
 	   resource [/WEB-INF/dispatcher-servlet.xml]
  	   bean calss conflicts with existing, non-compatible bean definition of same and class XXXX
  	   
+ 	 5) 에러발생시, 도움을 받을 수는 있는데 에러노트 만들기(원인, 대응방안)
+ 	 
+ 	 6) 요청값으로 객체 선언시, 404 에러가 날 때 확인할내용
+ 	 	
+ 	 	person.do : 처리가된다.(요청값을 아무것도 선언하지 않을 때)
+ 	 	
+ 	 	Person.do?name=홍길동
+ 	 	Person.do?age=25
+ 	 	Person.do?loc=서울
+ 	 	
+ 	 	위와같이 선언자체를 하지않거나 적절한 타입으로 선언하면 다른 유형들은 자동으로 default값으로 
+ 	 	문자열은 null로 숫자형은 0으로 넘어간다.
+ 	 	
+ 	 	[error] Person.do?age=이십오 
+ 	 	[error] Person.do?age=(공란)
+ 	 		<form>
+ 	 		<input type="age" value=""/> submit 클릭시 위와같은 404 100% 
+ 	 		public void setAge(int age) age=""; X
+ 	 	
+ 	 	@RequestMapping("person.do")
+ 	 	public String regPerson(Person p01)
 4. 스프링 DI에 대한 이해
 	new Person() ==> 모두 다 객체 생성 컨테이너에 올려놓고 호출하는 방식.
 	()  ()  ()  객체가 서로 연관관계가 있으면 자동으로 할당되는 (autowiring)
