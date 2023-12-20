@@ -9,8 +9,9 @@
 		
 	2) 객체와 객체의 관계 설정과 활용
 		- 메서드를 통한 객체 선언과 활용
+			bean ref = "p01"
 		
-	3) 여러가지 유형의 객체 활용
+	3) 여러가지 유형의 객체(Collections 객체) 활용
 		- map
 		- list
 		- properties

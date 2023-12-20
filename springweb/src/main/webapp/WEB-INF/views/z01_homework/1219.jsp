@@ -133,17 +133,17 @@ public static void main(String[] args) {
 <script src="https://developers.google.com/web/ilt/pwa/working-with-the-fetch-api" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("form").on("keypress",function(e){
-			if(e.keyCode==13){   //  enter키의 keycode는 13
-				e.preventDefault() // enter키의 기본 동작을 중단 처리
-			}
-		})	
 		
-	if(${member.success(param.id,param.pwd)}){
-		alert("로그인 성공")
-	}else{
-		alert("로그인 실패")
-	}	
+	var id = "${member.id}"
+	var pwd = "${member.pwd}"
+		
+	if(id!="" && pwd!=""){ // 초기화면이 아닐때
+			if(id=="himan"&&pwd="7777"){
+				alert("로그인성공")
+			}else{
+				alert("로그인실패")
+			}
+		}
 	});
 	
 </script>
@@ -151,7 +151,7 @@ public static void main(String[] args) {
 
 <body>
 	<div class="jumbotron text-center">
-		<h2>타이틀</h2>
+		<h2>로그인</h2>
 
 	</div>
 	<%-- 
@@ -162,7 +162,7 @@ public static void main(String[] args) {
 			<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 				<input placeholder="아이디 입력" name="id" class="form-control mr-sm-2" /> 
 				<input placeholder="비밀번호 입력" name="pwd" class="form-control mr-sm-2" />
-				<button class="btn btn-info" type="submit">Search</button>
+				<button class="btn btn-info" type="submit">로그인</button>
 				<button class="btn btn-success" data-toggle="modal"
 					data-target="#exampleModalCenter" type="button">등록</button>
 			</nav>

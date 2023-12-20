@@ -15,7 +15,7 @@ import springweb.z01_homework.vo.Car;
 @Controller
 public class A1219 {
 	@RequestMapping("homelogin.do")
-	public String homelogin(Member m) {
+	public String homelogin(Member m) { // 요청값 + 모델(member)
 		return "WEB-INF\\views\\z01_homework\\1219.jsp";
 	}
 	

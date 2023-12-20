@@ -15,6 +15,18 @@
   				dispatcher-servlet.xml
   	프린트 컨트롤러선언 : 스프링 프레임워크에 있는..
   -->
+ <context-param>
+ 	<param-name>contextConfigLocation</param-name>
+ 	<param-value>/WEB-INF/conf/spring_security.xml</param-value>
+  <!-- 하단에 계속 추가하여 필요에 따라 사용가능 -->
+ </context-param> 
+ 
+ <listener>
+ 	<listener-class>
+ 		org.springframework.web.context.ContextLoaderListener
+ 	</listener-class>
+ </listener>
+ 
 <servlet-mapping>
   	<servlet-name>dispatcher</servlet-name>
   	<url-pattern>*.do</url-pattern>
