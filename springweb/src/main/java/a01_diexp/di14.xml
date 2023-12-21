@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:task="http://www.springframework.org/schema/task" 
+   xmlns:aop="http://www.springframework.org/schema/aop" 
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xmlns:c="http://www.springframework.org/schema/c"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:util="http://www.springframework.org/schema/util"
+   xmlns:websocket="http://www.springframework.org/schema/websocket"
+   xmlns:sec="http://www.springframework.org/schema/security"
+   xmlns:tx="http://www.springframework.org/schema/tx" 
+    
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd       
+        http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd     
+        http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+         http://www.springframework.org/schema/websocket
+      http://www.springframework.org/schema/websocket/spring-websocket.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd   
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd   
+      ">
+      <!-- 
+      # 1:다 관계 객체 활용
+      1. 객체구조예시
+      	쇼핑몰안에서 판매하는 물품들
+      	회사 안에 여러 사원들
+      	부서 안에 소속된 팀원
+      	등으로 단일 객체 안에 여러 다중의 객체들을 할당하는 구조를 말한다.
+      
+      2. 처리순서
+      	1) 포함될 다중 객체의 단일 구조 선언 클래스 구현
+      		쇼핑몰 안에 판매하는 물품들 중에 물품의 구조 클래스
+      		class Product{}
+      			물건명 가격 갯수
+      		
+      	2) 다중 객체를 포함할 객체 구조 클래스
+      		- 해당 객체를 표현하거나 종류를 나타낼 단일변수
+      			[ex] String mallName(쇼핑몰이름)
+      			
+      		- 포함할 다중 객체를 처리할 List
+      			[ex] List<Product> plist;
+      		
+      		- 1:다관계 할당 메서드
+      			public void setPlist(List<Product> list){}
+      			
+      		- 1:다관계의 데이터를 출력할 메서드
+      			public void buyList(){}
+      		
+      		- 예시
+      		class ShoppingMall{
+      			private String mallName;
+      			private List<Product> plist;
+      		}
+      		
+      	3) 위 클래스를 xml(컨테이너)에서는 다음과 같이 선얺여 활용한다
+      		- 포함될 객체들 선언
+      			<bean id="prod01" class=".......Product">생성자 property선언</bean>
+      			<bean id="prod02" class=".......Product">생성자 property선언</bean>
+      			<bean id="prod03" class=".......Product">생성자 property선언</bean>       
+      		
+      		- 포함할 객체들에서 위 선언된 단일 객체를 아래와 같이 setPlist 메서드에서 할당
+	      		<property name="plist">
+	      			<list>
+	      				<ref bean="prod01"> 	
+	      				<ref bean="prod02"> 	
+	      				<ref bean="prod03"> 	
+      			
+      			
+		List<Product> addList = new ArrayList<Product>();
+		addList.add(new Product("사과",2000,2));
+		addList.add(new Product("바나나",4000,5));
+		addList.add(new Product("딸기",12000,3));
+		addList.add(new Product("오렌지",2200,5));
+		
+		ShoppingMall sm = new ShoppingMall("온라인 쇼핑몰");
+		sm.showProductInfo();
+		sm.setPlist(addList);
+		sm.showProductInfo();      			
+      			-->
+      <bean id="prod01" class="a01_diexp.z01_vo.Product">
+      	<constructor-arg value="사과"/>
+      	<constructor-arg value="2000"/>
+      	<constructor-arg value="2"/>
+      </bean>
+      
+	  <bean id="prod02" class="a01_diexp.z01_vo.Product">
+      	<constructor-arg value="바나나"/>
+      	<constructor-arg value="4000"/>
+      	<constructor-arg value="5"/>
+      </bean>
+      
+      
+      <bean id="prod03" class="a01_diexp.z01_vo.Product">
+      	<constructor-arg value="딸기"/>
+      	<constructor-arg value="12000"/>
+      	<constructor-arg value="3"/>
+      </bean>
+
+      <bean id="prod04" class="a01_diexp.z01_vo.Product">
+      	<constructor-arg value="오렌지"/>
+      	<constructor-arg value="2200"/>
+      	<constructor-arg value="5"/>
+      </bean>
+      
+      <bean id="sm01" class="a01_diexp.z01_vo.ShoppingMall">
+      	<constructor-arg value="온라인 청과몰"/>
+      	<property name="plist">
+      		<list>
+      			<ref bean="prod01"/>
+      			<ref bean="prod02"/>
+      			<ref bean="prod03"/>
+      			<ref bean="prod04"/>
+      		</list>
+      	</property>
+      </bean>
+	<!-- 
+	[ex] 
+	Member(아이디 패스워드 이름 권한 포인트)
+	OnDisk(이름, List<Member>)
+	public void showMembers(){
+		보유 회원들 명단(이름, 아이디, 포인트) 출력
+	}
+	 -->
+	<bean id="mem01" class="a01_diexp.z01_vo.Member">
+      	<constructor-arg value="himan"/>
+      	<constructor-arg value="2000"/>
+      	<constructor-arg value="홍길동"/>
+      </bean> 
+	<bean id="mem02" class="a01_diexp.z01_vo.Member">
+      	<constructor-arg value="dlathf0202"/>
+      	<constructor-arg value="2200"/>
+      	<constructor-arg value="마길동"/>
+      </bean> 
+	<bean id="mem03" class="a01_diexp.z01_vo.Member">
+      	<constructor-arg value="dlathf0101"/>
+      	<constructor-arg value="4000"/>
+      	<constructor-arg value="김길동"/>
+      </bean> 
+	<bean id="mem04" class="a01_diexp.z01_vo.Member">
+      	<constructor-arg value="himan0202"/>
+      	<constructor-arg value="100"/>
+      	<constructor-arg value="팍길동"/>
+      </bean> 
+	 
+	 <bean id="od01" class="a01_diexp.z01_vo.OnDisk">
+	 	<constructor-arg value="온디스크"/>
+	 	<property name="mlist">
+	 		<list>
+	 			<ref bean="mem01"/>
+	 			<ref bean="mem02"/>
+	 			<ref bean="mem03"/>
+	 			<ref bean="mem04"/>
+	 		</list>
+	 	</property>
+	 </bean>
+	 
+</beans>      

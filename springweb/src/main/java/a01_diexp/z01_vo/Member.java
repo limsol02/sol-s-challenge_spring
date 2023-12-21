@@ -5,6 +5,48 @@ public class Member {
 
 	private String id;
 	private String pwd;
+	private String auth;
+	private String point;
+	private String name;
+	
+
+	public Member(String id, String pwd, String auth, String point, String name) {
+		this.id = id;
+		this.pwd = pwd;
+		this.auth = auth;
+		this.point = point;
+		this.name = name;
+	}
+	
+	public Member(String id, String point, String name) {
+		this.id = id;
+		this.point = point;
+		this.name = name;
+	}
+
+	public String getAuth() {
+		return auth;
+	}
+
+	public void setAuth(String auth) {
+		this.auth = auth;
+	}
+
+	public String getPoint() {
+		return point;
+	}
+
+	public void setPoint(String point) {
+		this.point = point;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Member() {
 		// TODO Auto-generated constructor stub

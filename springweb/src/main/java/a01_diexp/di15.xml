@@ -32,20 +32,30 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd   
       ">
       <!-- 
-      생성자 처리...
-      Person p01 = new Person("홍길동",25,"서울");
+      # 컨테이너에 사용되는 다양한 구조체 처리방법
+      1. Set : 중복물건
+      	<set>	
+      		<value>
+      		<value>
+      		<value>
+      		
+      2. Properties : key/value 문자열
+      	<props>
+      		<prop key="키">값
+      		<prop key="키">값
+      		<prop key="키">값
+	
+	  3. Map : key/value 객체
+	  	 <map>
+	  	 	<enter key="키" value="값"/>
+	  	 	
+	  [ps] 이와 같은 구조체들은 특정한 클래스에 포함되어 선언되고
+	  객체와 객체관계 속 또는 특정 개체 안에서 활용되고 있다. 
+	  
+	  4. 처리순서
+	  	1) 위 내용을 포함하는 class 선언 후, 기능 메서드에 의해 구조체 할당
+	  	2) xml 컨테이너에 의해 위 선언방식 할당
+	  	3) main() 에서 메모리 할당 내용 확인      				
        -->
-     <bean id="p01" class="a01_diexp.z01_vo.Person" >
-     	<constructor-arg value="홍길동"/>
-     	<constructor-arg value="25"/>
-     	<constructor-arg value="서울"/>
-     </bean>
-     <!-- 
-     [ex] Music 객체 추가 mname , singer, pubyear(int) ==> 생성자를 통해서 호출처리..
-      -->
-      <bean id="m01" class="a01_diexp.z01_vo.Music">
-      	<constructor-arg value="acid dream"/>
-      	<constructor-arg value="MAX"/>
-      	<constructor-arg value="2020"/>
-      </bean>
+      <bean id="obj" class="java.lang.Object"/>
 </beans>      

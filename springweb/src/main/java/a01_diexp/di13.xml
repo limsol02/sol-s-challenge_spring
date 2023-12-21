@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:task="http://www.springframework.org/schema/task" 
+   xmlns:aop="http://www.springframework.org/schema/aop" 
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xmlns:c="http://www.springframework.org/schema/c"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:util="http://www.springframework.org/schema/util"
+   xmlns:websocket="http://www.springframework.org/schema/websocket"
+   xmlns:sec="http://www.springframework.org/schema/security"
+   xmlns:tx="http://www.springframework.org/schema/tx" 
+    
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd       
+        http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd     
+        http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+         http://www.springframework.org/schema/websocket
+      http://www.springframework.org/schema/websocket/spring-websocket.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd   
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd   
+      ">
+      <!-- 
+      # 컨테이너 안에 객체 vs 객체 관계 설정
+      1. 컨테이너는 객체와 객체간의 연관관계가 여러 유형으로 설정되어 처리할 수 있다. 
+      우선, 클래스가 해당 연관관계 구조로 된 클래스가 먼저 선언되어 있어야 하고
+      이를 xml형식으로 호출하여 처리한다.
+      단계별로는 명시적으로 객체vs객체를 선언에 의해서 연관관계를 설정하고 그 이후
+      필요에 따라 자동 연관관계 설정 옵션을 통해 컨테이너 안에 객체들 간의 DI(의존성 주입)이 이루어지게 된다.
+      
+      2. 처리순서
+       1) 클래스간의 연관관계로 설정
+       2) 컨테이너(xml 형식)안 포함될 객체 선언
+       3) 컨테이너(xml 형식)안에 포함할 객체 선언(포함될 내용 호출 할당)
+       		ref = "포함될 객체 id명"
+       4) 외부에서 호출처리..
+       
+      3. 실습예제
+      	1) 1:1
+     		HandPhone,  HPuser
+     		## 일반 객체 호출
+     		=> HandPhone h01 = new HandPhone("010-5555-9999","SKT")
+     		=> HPUser hu01 = new HPUser("홍길동");
+     		hu01.setHandPhone(h01);
+     		hu01.usePhone();
+       -->
+      <bean id="h01" class="a01_diexp.z01_vo.HandPhone">
+      <constructor-arg value="010-5555-9999"/>
+      <constructor-arg value="SKT"/>
+      </bean>
+      
+      <bean id="hu01" class="a01_diexp.z01_vo.HPUser">
+      <constructor-arg value="홍길동"/>
+      <property name="handPhone" ref="h01"/>
+      </bean>
+      
+      <!-- 객체를 할당할 때는 속성을 ref 로 하여야한다. value는 일반변수(문자열/숫자)일때만 사용 -->
+      <!-- 
+      [ex] Car(kind, cc, maxVel) 차종 배기량 최고속도
+      	   CarDriver(name, Car) 생성자를 통해 차주의 이름 할당
+      	   driving() 메서드를 통해 차를 소유했을때, 그렇지 않을 때를 나누어 처리
+       -->
+       <bean id="c01" class="a01_diexp.z01_vo.Car">
+       	<constructor-arg value="폭스바겐"/>
+       	<constructor-arg value="1,968cc"/>
+       	<constructor-arg value="170"/>
+       </bean>
+       <bean id="cd01" class="a01_diexp.z01_vo.CarDriver">
+       	<constructor-arg value="홍길동"/>
+       	<property name="car" ref="c01"/>
+       </bean>
+</beans>      
