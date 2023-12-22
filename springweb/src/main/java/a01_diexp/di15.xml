@@ -57,5 +57,60 @@
 	  	2) xml 컨테이너에 의해 위 선언방식 할당
 	  	3) main() 에서 메모리 할당 내용 확인      				
        -->
-      <bean id="obj" class="java.lang.Object"/>
+      <bean id="sensor01" class="a01_diexp.z01_vo.Sensor">
+      	<!-- 
+      	setAgent(Set <String> agent) 메서드 xml 활용방법?
+      	 -->
+      	<property name="agent">
+      		<set> <!-- 순서확보가 안되지만, 중복을 제거해주는 collection객체.. -->
+      			<value>주식매매</value>
+      			<value>주식매매</value>
+      			<value>자산관리</value>
+      			<value>주식매매</value>
+      			<value>보험관리</value>
+      			<value>보험관리</value>
+      			<value>주식매매</value>
+      		</set>
+      	</property>
+      	
+      	<!-- setAddInfo(Properties addInfo) -->
+      	<property name="addInfo">
+      		<props>
+      			<prop key="사과">3000</prop>
+      			<prop key="바나나">4000</prop>
+      			<prop key="사과">3500</prop>
+      			<prop key="바나나">3200</prop>
+      			<prop key="오렌지">2200</prop>
+      		</props>
+      	</property>
+      </bean>
+      
+      <bean id="gamer01" class="a01_diexp.z01_vo.Gamer">
+      <property name="beadKinds">
+      	<set>
+      		<value>빨간구슬</value>
+      		<value>주황구슬</value>
+      		<value>노랑구슬</value>
+      		<value>초록구슬</value>
+      		<value>파랑구슬</value>
+      		<value>남색구슬</value>
+      		<value>보라구슬</value>
+      		<value>남색구슬</value>
+      		<value>남색구슬</value>
+      	</set>
+      </property>
+      
+      <property name="beadsCnts">
+      	<props>
+      		<prop key="빨간구슬">1</prop>
+      		<prop key="주황구슬">2</prop>
+      		<prop key="노랑구슬">3</prop>
+      		<prop key="초록구슬">4</prop>
+      		<prop key="파랑구슬">5</prop>
+      		<prop key="남색구슬">6</prop>
+      		<prop key="보라구슬">7</prop>
+      	</props>
+      </property>
+      
+      </bean>
 </beans>      

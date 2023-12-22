@@ -1,0 +1,94 @@
+# 스프링 MVC
+1. 스프링은 개발패턴의 하나인 MVC(모델 2방식) 패턴으로 개발을 진행한다.
+2. 아래와 같은 플로우로 흐름이 진행되고
+	1) 브라우저에서 화면호출 및 요청값 전달 
+	http://234.32.12.105:7080/springweb/call.do?name=홍길동
+	
+	2) 서버접속 : 234.32.12.105:7080/springweb 
+	인터넷상 사용되고 돌아가는 웹서버를 찾아서 해당 아이피로 접속한다. 
+	
+	3) 해당 서버안에서 지원되는 여러가지 서버중에 7080포트 서비스에 접속한다.
+	  :7080
+	
+	4) springweb : 연결된 프로젝트 context명에서 springweb로 된 것에 접속한다.
+	
+	5) call.do 라는 url 패턴을 확인하려고 해당 웹서버의 우선 web.xml을 찾는다.
+	
+	6) web.xml에서는 
+		1] 패턴확인 : <url-pattern>*.do</url-pattern>
+		
+		2] frontcontroller 확인
+			<servlet-name>dispatcher</servlet-name>
+			org.springframework.web.servlet.DispatcherServlet
+		
+		3] frontcontroller와 연결되어 있는 컨테이너(객체들이 있는 수영장) 찾기 확인하여 
+			<init-param>
+				<param.name>contextConfigLocation</param-name>
+				<parma-value>
+					WEB-INF/dispatcher-servlet.xml
+		
+		4] 해당 container(@@.xml)안에 선언된 controller 가운데 call.do로 선언된 메서드 찾아가기
+			@RequestMapping("call.do")
+			public String start2(@RequestParam("name") String name)
+			
+		5] 그리고 요청값이 있으면(?name=홍길동) 요청값을 받는 요청 처리 부분을 확인하여 변수에 데이터를 할당한다.
+			@RequestParam("name") String name => name에 홍길동 할당처리 
+			
+		6] public String start2(Model d)
+			이렇게 해서 해당 메서드를 찾아서, 요청값에 대한 로직을 조건 반복문에 의해 처리하고, 
+			jsp(view)던에 넘길 모델 데이터를 위와 같이 매개변수로 선언한 뒤
+			d.addAttribute("모델명",모델값); 형식으로 설정한다
+			[ex/ d.Attribute("auth",name.equals("홍길동")?"관리자":"일반사용자");]	
+			형식으로 설정한다
+			
+		7] 그리고, 마지막으로 해당 메서드의 마지막 리턴 문자열 형식으로 view단의 페이지 위치를 호출하고
+			return "WEB-INF\\views\\a01_start\\a03_startSpring.jsp";
+			
+		8] 해당 view단 페이지는 controller단에 선언한 모델명인 auth를 
+		el형식이나 jstl 데이터로 출력 처리한다.
+			<h2>권한:${auth}</h2>
+			
+3. 위 플로우에 의해서 개발을 다음과 같은 순서로 진행한다.
+	1) 처리할 업무와 화면을 정리하고(요구사항정의서/화면설계서)
+		이름을 입력하면 권한을 확인하는 처리
+		이름 : [  ] [권한검색]
+		@@@님의 권한은 @@@입니다. ==> 출력
+		
+	2) 초기화면 처리할 controller를 생성/컨테이너 등록
+	3) url패턴의 기능메서드로 초기화면 로딩 controller 메서드 선언
+	4) 연계할 뷰단 jsp 생성 및 return controller에 해당 view단 경로 설정.
+	5) 뷰단 구현 및 초기화면 확인
+	6) [view단] 요청값을 확인, 화면 form 하위 ui 결정 name="요청키" 설정
+	7) [controller단] 요청값에 받았을 때, 모델 데이터에 대한 선언을 처리한다.
+	8] [view단] 위 모델데이터를 화면에 처리할 위치나 방법을 결정하고 출력한다.
+	9] 전체 테스트 진행
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+3. 위 플로우에 의해서 개발을 다음과 가은 순서로 진행한다.
