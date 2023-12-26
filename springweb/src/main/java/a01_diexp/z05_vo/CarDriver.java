@@ -1,7 +1,12 @@
-package a01_diexp.z01_vo;
+package a01_diexp.z05_vo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class CarDriver {
 	private String name;
+	@Autowired
 	private Car car;
 	public CarDriver() {
 		// TODO Auto-generated constructor stub

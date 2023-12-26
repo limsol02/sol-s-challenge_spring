@@ -33,7 +33,6 @@
       ">
       <!-- 상단은 앞으로 xml 태그의 형식을 지정하는 부분
       호출할 때, 컨테이너에서 찾을 수 있는 객체의 범위안에 설정이 됨..
-       -->
       <bean class="springweb.a01_start.A01_StartController"/>
       <bean class="springweb.a01_start.A02_RestartController"/>
       <bean class="springweb.a01_start.A03_ParamObjectModel"/>
@@ -41,4 +40,13 @@
       <bean class="springweb.z01_homework.A1219"/>
       <bean class="springweb.a02_mvc.A01_MVC_StartController"/>
       <bean class="springweb.a02_mvc.A02_MVC_CheckAdultCtrl"/>
+       -->
+      
+      <context:component-scan base-package="springweb">
+      	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+      	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+      	<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+      </context:component-scan>
+      
+      
 </beans>      

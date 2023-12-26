@@ -1,4 +1,4 @@
-package a01_diexp.z01_vo;
+package a01_diexp.z04_vo;
  //a01_diexp.z01_vo.HPUser
 public class HPUser {
 	private String name;

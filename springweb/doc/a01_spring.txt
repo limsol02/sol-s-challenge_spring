@@ -197,6 +197,16 @@
 		
 	3) 객체형 요청값 처리(useBean의 처리와 동일하게 처리된다)
 		요청값 + 모델데이터
+		property의 이름과 type이 할당 가능 할 때, 호출 가능하다.
+		?product?name=사과&price=2000&cnt=5
+		==> 이 요청값에 해당하는 set property 처리 내용
+		public String buyProd(Product prod){} ==> 기본적으로 product 설정
+		// 요청값 + 모델 데이터 처리하는 객체
+		setName(String name)
+		setPrice(int price)
+		setCnt(int cnt)
+		==> 각, 기능 메서드가 포함되어 있어야 한다.
+		
 	
 3. 모델 데이터 처리
 	1) view단에 넘길 핵심 데이터에 대한 처리.

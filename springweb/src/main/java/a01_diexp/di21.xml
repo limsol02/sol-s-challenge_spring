@@ -31,45 +31,13 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd   
       ">
-      <!--
-      # namespace를 이용한 객체 생성과 property 사용
-      1. 위에 선언한 dtd(xml상단에 사용할 태그와 속성 규칙)에 
-      	xmlns:p="http://....../p"
-      	xmlns:c="http://....../c"
-      가 선언되어 있으면 객체 생성과 선언방식을 보다 간단하게 처리할 수 있게 도와준다.
-      
-      2. p: property 선언
-      	 c: constructor 선언
-      
-      3. property 선언 방식
-      	1) p: 프로퍼티명 ="깂할당"
-      	
-      4. constructor선언 방식
-      	1) c:매개변수명 = "할당할 데이터"
-      	2) c:_0:생성자선언순서
-      		[ex] c:_1="20" 생성자 두번째 20을 매개변수로 선언해서 할당처리..
-      
-       -->
-      <bean id="p01" class="a01_diexp.z01_vo.Person"
-      	p:name="홍길동" p:age="25" p:loc="서울" />
-      
-      <!-- Person p02 = new Person("마길동",27,"인천") -->
-      <bean id="p02" class="a01_diexp.z01_vo.Person"
-      	c:name="마길동" c:age="27" c:loc="인천" />
-      
-      <bean id="p03" class="a01_diexp.z01_vo.Person"
-      	c:_0="오길동" c:_1="21" c:_2="대전" />
-      
-      <!-- movie/product/car 객체를 기준으로 위 3가지 패턴의 객체를 생성해서 호출 -->
-      
-      <bean id="movie01" class="a01_diexp.z01_vo.Movie"
-      	p:date="2023-12-30" p:name="타짜" p:cnt="3"/>
-      
-      <bean id="prod01" class="a01_diexp.z01_vo.Product"
-      c:pname="아메리카노" c:price="1600" c:cnt="1"/>
-	
-		
-	 <bean id="car01" class="a01_diexp.z01_vo.Car"      
-      c:_0="코나" c:_01="cc모름" c:_02="160"/>
-      
+<!-- 
+# 특정 패키지의 모든 클래스를 컨테이너에 객체 등록
+1. Context : include-filter type="regex" 정규식 표현법에 의한 등록
+2. expression=".*" : 해당 패키지의 모든 클래스 선언 객체로 등록..
+
+-->
+      <context:component-scan base-package="a01_diexp.z04_vo">
+      	<context:include-filter type="regex" expression=".*"/>
+      </context:component-scan>
 </beans>      

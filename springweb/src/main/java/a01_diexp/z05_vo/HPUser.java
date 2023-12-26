@@ -1,7 +1,19 @@
-package a01_diexp.z01_vo;
- //a01_diexp.z01_vo.HPUser
+package a01_diexp.z05_vo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+//a01_diexp.z01_vo.HPUser
+/*
+호출 하는 곳은 controller, 호출되는 클래스는 service 설정
+ * */
+
+@Controller
 public class HPUser {
 	private String name;
+	// 소스 내 코드를 컨테이너에 객체가 있드면 자동으로 할당처리할 수 있게 설정 처리옵션.
+	// required = false : 없더라도 null 에러 방지 에러 방지 처리..
+	@Autowired(required = false)
 	private HandPhone handPhone;
 	public HPUser() {
 		// TODO Auto-generated constructor stub
