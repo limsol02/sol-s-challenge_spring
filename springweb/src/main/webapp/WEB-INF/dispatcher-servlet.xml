@@ -47,6 +47,37 @@
       	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
       	<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
       </context:component-scan>
-      
-      
+      <bean class="d01_dao.PreparedStmtDao"/>
+      <!-- 
+      1. mybatis 접속을 효율적으로 하게 하는 dbcp 객체 설정 처리..
+      	1) db연동
+      	2) 트랜잭션 처리
+      	oracle.jdbc.driver.OracleDriver  jdbc:oracle:thin:@localhost:1521:xe  scott  tiger 이거 내 원격쓸꺼면 바꿔야됨;;
+       -->
+       <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <!-- 자원해제하는 메서드 선언 -->
+	       	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	       	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	       	<property name="username" value="scott"/>
+       		<property name="password" value="tiger"/>
+       </bean>
+       
+      <tx:annotation-driven proxy-target-class="true"/>
+      <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      		<property name="dataSource" ref="dataSource"/>	
+      </bean>
+      <!-- 
+      2. mybatis framework를 컨테이너에서 사용하기..
+      	1) 공통 mybatis 설정 xml
+      	2) 객체를 자동생성 하게 하는 dao interface 위치 선언. 
+       -->
+       <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+       	<property name="dataSource" ref="dataSource"/>
+       	<property name="configLocation" value="classpath:/resource/mybatis.Spring.xml"/>
+       </bean>
+       
+       <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       	<property name="basePackage" value="springweb.a02_mvc.a03_dao"/>
+       </bean>
+       
+       
 </beans>      

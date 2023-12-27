@@ -1,4 +1,4 @@
-package a01_diexp.z01_vo;
+package springweb.z01_vo;
 // frontweb.vo.Member
 public class Member {
 	// 유형, 컬럼명(소문자)
