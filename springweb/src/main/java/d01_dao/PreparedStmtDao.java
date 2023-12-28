@@ -69,7 +69,7 @@ public class PreparedStmtDao {
 		return cudCnt;
 	}
 
-	public List<Dept> getDeptList(String dname, String loc) {
+	public List<Dept> getDeptList(Dept sch) {
 		List<Dept> dlist = new ArrayList<Dept>();
 		String sql = "select deptno,dname,loc " 
 				+ "from dept01 " 
@@ -78,8 +78,8 @@ public class PreparedStmtDao {
 				+ " order by deptno ";
 		// try(객체처리-연결;대화;결과){} : try resource 구문 파일이나 DB연결 자동 자원해제..
 		try (Connection con = DBCon.con(); PreparedStatement pstmt = con.prepareStatement(sql);) {
-			pstmt.setString(1, "%" + dname + "%");
-			pstmt.setString(2, "%" + loc + "%");
+			pstmt.setString(1, "%" + sch.getDname() + "%");
+			pstmt.setString(2, "%" + sch.getLoc() + "%");
 			try (ResultSet rs = pstmt.executeQuery();) {
 				while (rs.next()) {
 					dlist.add(new Dept(rs.getInt("deptno"), rs.getString("dname"), rs.getString("loc")));

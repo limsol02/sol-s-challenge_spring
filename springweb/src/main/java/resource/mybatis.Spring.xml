@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+	<!-- 애칭 지정 -->
+		<typeAlias type="springweb.z01_vo.Emp" alias="emp"/>
+		<typeAlias type="springweb.z01_vo.Dept" alias="dept"/>
+	</typeAliases>
+	
+	
+
+	<mappers> 
+	<!-- 공통 mapper 를 mappers 안에 등록 -->
+		<mapper resource="resource/ExpMapper.xml"/>
+	</mappers>
+</configuration>

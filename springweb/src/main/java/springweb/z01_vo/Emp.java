@@ -22,6 +22,12 @@ public class Emp {
 		this.job = job;
 		this.deptno = deptno;
 	}
+	public Emp(String ename, String job) {
+		this.ename = ename;
+		this.job = job;
+	}
+
+
 	public Emp(int empno, String ename, double sal, int deptno) {
 		this.empno = empno;
 		this.ename = ename;

@@ -85,7 +85,7 @@
        <td>${emp.ename}</td>
        <td>${emp.job}</td>
        <td>${emp.mgr}</td>
-       <td>${emp.hiredate}</td>
+       <td><fmt:formatDate value="${emp.hiredate}"/> </td>
        <td><fmt:formatNumber value="${emp.sal}" /></td>
        <td><fmt:formatNumber value="${emp.comm}"/></td>
        <td>${emp.deptno}</td>
@@ -94,6 +94,9 @@
        
     </tbody>
    </table>    
+    
+    
+    
     
 </div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

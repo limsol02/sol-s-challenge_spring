@@ -20,7 +20,98 @@
 		sql 작성 확인(입력/출력할 내용 확인)
 		dto/vo 작성
 		dao 인터페이스 설정(입력값/리턴할 메서드 선언)
+		-> framework를 통해 자동으로 DB처리하는 실제 객체를 만들어 준다.
 		공통 vo/dto 공통 mybaits 설정 파일에 등록
 		사용할 sql 처리 mapper 파일 생성 및 설정 파일에 등록
 		위 dao 인터페이스와 연동하는 규칙에 따라 mapper.xml 파일 생성
 		service/controller 호출하여 모델 데이터 처리 및 확인.
+		
+### A01_Dao.java(인터페이스), ExpMapper.xml(xml)
+==> 내부적으로 실제 dao 파일을 만들어준다.
+그래서 service 해서 호출하여 사용할 수 있다. 
+
+Service파일..		
+		
+### Mybatis DB연동 연습 ###
+[sql]
+	select count(*) from emp;
+		[public int getEmpCount();]
+	
+	select ename from emp where empno=7492
+		[public String getEmpStr();]
+	
+		
+	사원정보의 데이터 건수 검색
+	결과는 12 ==> 프로그램적으로 결과를 가져오려면 기능 메서드 필요
+	[public int getEmpCount();]
+	==> 해당 메서드를 통해서 sql의 결과를 프로그램적으로 가져온다.
+	service 단에서 "사원정보의 수 :"+dao.getEmpCount();
+===============================================================================
+
+springweb\a02_mvc\a03_dao\A01_Dao.java
+	인터페이스(껍데기만 있으면 ok, 입력값, 리턴값, 메서드명)
+	public int getEmpCount();
+	==> sql의 결과를 담기위한 메서드 선언(리턴값, 메서드명, 매개변수 유형)
+	select count(*) from emp where deptno=?
+	
+	public int getEmpByDeptno(int deptno);
+
+===============================================================================
+
+resource\ExpMapper.xml
+	<select id="getEmpCount" resultType="int">
+		select count(*) from emp
+	</select>
+	
+	<selct id="getEmpByDeptno" resultType="int">
+		select count(*) from emp where deptno=#{deptno}
+	</select>
+
+0. 규칙
+	1) namespace // dao 인터페이스명
+	
+	2) id // 메서드명
+	
+	3) resultType // 리턴값 처리 
+	   resultMap 
+	
+	4) parameterType // 매개변수 처리 
+
+1. 리턴값 연습
+	1) 단일 데이터 
+	=> select count(*) from emp
+	
+	=> public int getCountEmp();
+	<select id="getCountEmp" resultType="int">
+		select count(*) from emp
+	</select>
+	
+	2) 객체 데이터
+		public Emp getEmp();
+		
+		// emp : ailas로 선언시에는 그 이름으로 아니라면 패키지명 포함 객체 선언.
+		<select id="getEmp" resultType="emp">
+			select * from emp where empno=7369
+		</select>
+	3) List 데이터 : 
+
+2. 매개변수 연습
+	1) 단일 데이터 :
+		- 숫자
+		- 문자열
+	
+	2) Map(key/value)
+	
+	3) VO
+
+	4) List 
+
+3. 리턴값 / 매개변수 처리 연습
+	1) 리턴값/ 매개변수가 동시에 있는 형식..
+	
+	
+	
+	
+	
+	
+		
