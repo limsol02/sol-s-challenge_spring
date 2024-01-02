@@ -2,38 +2,106 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
 <mapper namespace="springweb.a02_mvc.a03_dao.A01_Dao">
-	<select id="getEmpList" resultType="emp" 
-		parameterType="emp">
-		<!--  [namespace ==> 인터페이스 경로]
-			  [id ==> 메서드명],
-			  [resultType ==> 리턴타입 명(경로)] / List무시하고 걍 타입만 넣음됨
-			  [parameterType ==> 매개변수 명(경로)]
-			  
-			  리턴타입이랑 매개변수명 springweb.z01_vo.Emp로 경로로 설정해도 되는데
-			  mybatis에 별칭으로 springweb.z01_vo.Emp 를 emp로 설정해둬서(alias)
-			  mapper.xml에서는 그냥 별칭으로 사용 가능
-			   -->
-		select * from emp02 where ename like '%' || #{ename} || '%'
-			 and job like '%' || #{job} || '%'
-	</select>
-		<!--  ename ==> sch.getEname(),
-			  job ==> sch.getJob() -->
-	
-	<select id="getCountEmp" resultType="int">
-		select count(*) from emp
-	</select>		  
-	
-	<select id="getCountDept" resultType="int">
-		select count(*) from dept
-	</select>
-	
 	<select id="getDeptList" resultType="dept" parameterType="dept">
-	    select * from dept01 where dname like '%' || #{dname} || '%' and loc like '%' || #{loc} || '%'
+		select * from dept01 where dname like '%' || #{dname} || '%' and loc like '%' || #{loc} || '%' order by deptno
 	</select>
+
+
+	<select id="getEmpList" resultType="emp" parameterType="emp">
+		SELECT *
+		from emp02
+		WHERE ename like '%'|| #{ename} || '%'
+		AND job like '%' ||
+		#{job} || '%'
+	</select>
+	<select id="getCountEmp" resultType="int">
+		select count(*) from
+		emp02
+	</select>
+	<!-- 위 preparedstatement를 활용하는데, 1. matching 방식을 #{ property} ename ==> 
+		sch.getEname(), job ==> sch.getJob() where ename like '%'||?||'%' and job 
+		like '%'||?||'%' pstmt.setString(1,sch.getEname()); pstmt.setString(2,sch.getJob()); 
+		2. 동적 query 처리 방식 ${연결할 문자열변} String sql="select * from emp02 " if(ename!=null) 
+		sql += "where ename='"+sch.getEname()+"'"; int getCountDept(); -->
+	<select id="getCountDept" resultType="int">
+		select count(*) from dept01
+	</select>
+	<!-- 공통 mybatis에서 typeAlias alias="emp" type="springweb.z01_vo.Emp" 라고 선언되어 
+		있기에 emp로 간단하게 선언도 가능 -->
+	<select id="getEmp" resultType="emp" parameterType="int">
+		SELECT *
+		FROM
+		emp02
+		WHERE empno = #{empno}
+	</select>
+	<select id="getDnameByDeptno" resultType="string"
+		parameterType="int">
+		SELECT dname
+		FROM dept01
+		WHERE deptno=#{deptno}
+	</select>
+	<select id="getLocations" resultType="location">
+		SELECT *
+		FROM LOCATIONS
+	</select>
+	<!-- List<Job> getJobs(); -->
+	<select id="getJobs" resultType="job">
+		SELECT *
+		FROM jobs
+	</select>
+	<!-- 결과값이 컬럼명과 다른 property가 설정할 때는 resultMap이 필요로 한다. 
+		resultMap은 우선 선언 후, 선언된 id로 활용한다. 
+		private int no; //empno 
+		private String name; // ename 
+		private double salary; // sal 
+		private String grade; // job 
+		public List<Employee> getEmployee(Param("job01")String job, Param("ename01") String ename);
+		
+		1. 매개변수 전달 방식 annotation으로 설정해서 전달. 2. result값도 resultMap으로 컴럼명과 property가 다를 때 설정..
+		[메서드]
+		public List<Employee> getEmployee(@Param("job")String job, @Param("ename") String ename); 
+		[sql]
+		SELECT * from emp02 WHERE job LIKE '%'||#{job}||'%' AND ename LIKE '%'||#{ename}||'%'
+		
+		들어가 매개변수의 이름을 지정하면 parameterType을 설정하지 않아도 된다. 
+		 -->
+	<resultMap type="employee" id="empRst">
+		<result column="empno" property="no" />
+		<result column="ename" property="name" />
+		<result column="sal" property="salary" />
+		<result column="job" property="grade" />
+	</resultMap>
+	<select id="getEmployee" resultMap="empRst">
+		SELECT *
+		from emp02
+		WHERE job
+		LIKE '%'||#{job01}||'%'
+		AND ename LIKE '%'||#{ename01}||'%'
+	</select>
+
+
+	<!-- 
+	[ex] getDepartInfo  
 	
-	<select id="getDnameByDname" resultType="String" parameterType="int">
-		select dname from dept where deptno = #{deptno}
+	[메서드]
+	public List<Depart> getDepartInfo(@Param("dname")String dname, @Param("loc")String loc);
+	
+	[sql]
+	SELECT * FROM dept WHERE dname LIKE '%'||''||'%' AND loc LIKE '%'||''||'%'
+	-->
+	<resultMap type="depart" id="deptRst">
+		<result column="deptno" property="no" />
+		<result column="dname" property="name" />
+		<result column="loc" property="location" />
+	</resultMap>
+
+	<select id="getDepartInfo" resultMap="deptRst">
+		SELECT * FROM dept01 WHERE
+		dname LIKE '%'||#{dname}||'%' AND loc LIKE '%'||#{loc}||'%'
 	</select>
-			  
-</mapper>
+
+
+
+</mapper>	

@@ -1,5 +1,5 @@
 package springweb.z01_vo;
-// frontweb.vo.EmpDTO
+// springweb.z01_vo.EmpDTO
 public class EmpDTO {
 	private int empno;
 	private String ename;

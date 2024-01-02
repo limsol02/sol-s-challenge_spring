@@ -17,7 +17,8 @@ public class A01_EmpController {
 	
 	@RequestMapping("dbexp01.do")
 	public String dbexp01(Emp sch, Model d) {
-		d.addAttribute("empList",service.getEmpList(sch));
+		d.addAttribute("empList", service.getEmpList(sch));
+	
 		return "WEB-INF\\views\\a03_mvc\\a01_empList.jsp";
 	}
 	
@@ -27,4 +28,6 @@ public class A01_EmpController {
 		d.addAttribute("deptList",service.getDeptList(sch));
 		return "WEB-INF\\views\\a03_mvc\\a02_deptList.jsp";
 	}
+
+	
 }

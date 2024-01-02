@@ -1,0 +1,3 @@
+# 톰캣 죽이기
+netstat -ao
+taskkill /f /pid 15892

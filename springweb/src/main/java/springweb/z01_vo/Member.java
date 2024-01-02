@@ -1,5 +1,5 @@
 package springweb.z01_vo;
-// frontweb.vo.Member
+// springweb.z01_vo.Member
 public class Member {
 	// 유형, 컬럼명(소문자)
 	

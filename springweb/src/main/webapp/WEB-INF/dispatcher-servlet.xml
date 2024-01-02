@@ -69,6 +69,42 @@
       2. mybatis framework를 컨테이너에서 사용하기..
       	1) 공통 mybatis 설정 xml
       	2) 객체를 자동생성 하게 하는 dao interface 위치 선언. 
+      	
+      # DB 연동 처리 형식
+      1. dataSource(기본 연결 정보 처리 객체)
+      
+      2. transactionManager(트랜잭션 처리 - optional)
+      [트렌젝션? 
+      트랜잭션(Transaction 이하 트랜잭션)이란, 데이터베이스의 상태를 변화시키기 해서 수행하는 작업의 단위를 뜻한다.
+      간단하게 말해서 아래의 질의어(SQL)를 이용하여 데이터베이스를 접근 하는 것을 의미한다.]
+      	ref="dataSource" (위 연결 객체 할당)
+      	
+      3. sqlSesscionFactory(mybatis framework 연결 및 공통 설정 파일 지정)
+      [SqlSessionFactory는 데이터베이스와의 연결과 SQL의 실행에 대한 모든 것을 가진 가장 중요한 객체다.
+       이 객체가 DataSource를 참조하여 MyBatis와 Mysql 서버를 연동시켜준다]
+      
+      	ref="dataSource" (위 연결 객체 할당)
+      	configLocation::/resource/mybatis.Spring.xml(공통파일)
+      	== 사용할 vo의 alias명 지정
+      		사용할 mapper.xml 설정 처리..
+      		typeAlias alias="emp" type="springweb.z01_vo.Emp"
+      		mapper source="resource/ExpMapper.xml"
+      		== XXXMapper.xml
+				mapper namespace="springwep.a02_mvc.a03_dao.A01_Dao"
+				<select id="" parameterType="" resultType="">
+					==> 활용할 sql
+				</select>
+				== 연동된 dao 인터페이스
+			      	
+      4. MapperScannerConfigurce : 
+      	자동 객체생성 interface dao 패키지 범위 설정
+      	1) basePackage : springweb.a02_mvc.a03_dao
+      	해당 패키지 안에 있는 모든 Dao interface는 실제 객체를 상속해서 DB연결 처리해준다..
+      	
+      	2) 위 내용에서 다른 패키지를 추가하려면 아래 형식으로 처리하면 된다. 
+      		value="패키지1, 패키지2,..."
+      		,로 구분하여 추가 처리...
+      		
        -->
        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
        	<property name="dataSource" ref="dataSource"/>

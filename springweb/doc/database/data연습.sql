@@ -53,3 +53,33 @@ empno -> deptno -> loc
 이때, 사원번호와 부서위치는 이행적 함수 종속적인 관계에 있다고 할 수 있다.
 이행적 함수 종속성이 있는 것을 테이블로 분리시켜야 하고, 이것을 제 3 정규화라고 한다.
  * */
+
+SELECT * FROM dept WHERE dname LIKE '%'||''||'%' AND loc LIKE '%'||''||'%';
+
+
+SELECT * FROM emp02;
+
+INSERT INTO emp02 values(
+1000, '홍길동', '사원', 7902, to_date('2024-01-02','YYYY-MM-DD'), 4000, 1000, 10);
+
+/*
+[class Emp]
+private String hiredateS;
+
+[interface]
+public int insertEmp(EmpDTO insert);
+
+<insert id="insertEmp" parameterType="empDto" resultType="int">  
+	insert into emp02(#{empno},#{ename},#{job},#{mgr},to_date(#{hiredateStr},'YYYY-MM-DD'),#{sal},#{comm},#{depetno})
+</insert>
+ * */
+/*
+class Depart
+private int no;
+private String name;
+private String location;
+
+getDepartInfo()
+ * */
+
+SELECT * FROM member01 WHERE id=? pwd=?

@@ -6,6 +6,12 @@
 	<!-- 애칭 지정 -->
 		<typeAlias type="springweb.z01_vo.Emp" alias="emp"/>
 		<typeAlias type="springweb.z01_vo.Dept" alias="dept"/>
+		<typeAlias type="springweb.z01_vo.Location" alias="location"/>
+		<typeAlias type="springweb.z01_vo.Job" alias="job"/>
+		<typeAlias type="springweb.z01_vo.Employee" alias="employee"/>
+		<typeAlias type="springweb.z01_vo.Depart" alias="depart"/>
+		<typeAlias type="springweb.z01_vo.EmpDTO" alias="empDto"/>
+		<typeAlias type="springweb.z01_vo.Member" alias="member"/>
 	</typeAliases>
 	
 	
@@ -13,5 +19,6 @@
 	<mappers> 
 	<!-- 공통 mapper 를 mappers 안에 등록 -->
 		<mapper resource="resource/ExpMapper.xml"/>
+		<mapper resource="resource/Exp02Mapper.xml"/>
 	</mappers>
 </configuration>

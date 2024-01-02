@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="springweb.a02_mvc.a03_dao.A02_Dao">
+	<insert id="insertEmp" parameterType="empDto">  
+		insert into emp02 values(#{empno}, #{ename}, #{job}, #{mgr}, to_date(#{hiredateStr},'YYYY-MM-DD'), #{sal}, #{comm}, #{deptno})
+	</insert>
+	
+	<insert id="insertDept" parameterType="dept">
+		insert into dept01 values(#{deptno},#{dname},#{loc})
+	</insert>
+	
+	 <select id="login" resultType="int" parameterType="member">
+        SELECT COUNT(*) FROM member01 WHERE id = #{id} AND pwd = #{pwd}
+    </select>
+
+    <select id="schMember" resultType="member" parameterType="String">
+        SELECT * FROM member01 WHERE name LIKE '%'||#{name}||'%'
+    </select>
+
+    <insert id="insertMem" parameterType="member">  
+        INSERT INTO member01 VALUES (#{mno}, #{name}, #{id}, #{pwd}, #{auth}, #{point})
+    </insert>
+	
+</mapper>	

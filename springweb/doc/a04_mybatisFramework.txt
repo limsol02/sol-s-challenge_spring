@@ -68,6 +68,8 @@ resource\ExpMapper.xml
 	</select>
 
 0. 규칙
+	- 1단계
+	XXXmapper.xml // dao 인터페이스 만들기
 	1) namespace // dao 인터페이스명
 	
 	2) id // 메서드명
@@ -76,25 +78,39 @@ resource\ExpMapper.xml
 	   resultMap 
 	
 	4) parameterType // 매개변수 처리 
-
-1. 리턴값 연습
-	1) 단일 데이터 
-	=> select count(*) from emp
 	
-	=> public int getCountEmp();
+	- 2단계
+	dao인터페이스
+	@Select("처리할 sql")
+	public 리턴유형 메서드명(매개변수처리);
+
+1. 리턴값 연습(XXmapper.xml resultType/resultMap )
+	1) 단일 데이터 (숫자,문자열)
+	
+	[sql] 
+	select count(*) from emp
+	[사용할 메서드]
+	public int getCountEmp();
+	
+	=>
 	<select id="getCountEmp" resultType="int">
 		select count(*) from emp
 	</select>
 	
 	2) 객체 데이터
 		public Emp getEmp();
-		
 		// emp : ailas로 선언시에는 그 이름으로 아니라면 패키지명 포함 객체 선언.
+		
 		<select id="getEmp" resultType="emp">
 			select * from emp where empno=7369
 		</select>
-	3) List 데이터 : 
-
+	
+	3) List 데이터(resultType, resultMap)
+		1] sql 
+		2] 다중의 list가 나오면 단위 객체 vo로 만들어 alias 등록, resultType에 설정
+		3] dao 설정	
+		
+	
 2. 매개변수 연습
 	1) 단일 데이터 :
 		- 숫자
@@ -109,7 +125,38 @@ resource\ExpMapper.xml
 3. 리턴값 / 매개변수 처리 연습
 	1) 리턴값/ 매개변수가 동시에 있는 형식..
 	
+## DB 연결시 순서 ##
+
+1. sql 작성
+	입력값 ?
+	출력값 ? 
+	확인 type, 다중 데이터 여부 확인
+
+2. VO 객체 or 일반 type
+	1) 입력할때 사용할
+	2) 출력(리턴할 때) 사용할	
 	
+3. dao interface 선언
+	1) 입력/출력/기능메서드를 매개변수/리턴값/메서드명
+
+4. mybatis.String.xml에 
+	1) alias VO객체 등록
+	2) 추가할 mapper.xml이 있으면 등록
+	
+5. XXXmapper.xml
+	1) 위 등록한 alias 와 mapper.xml 을 활용하여 
+	2) namespace명 : 인터페이스명
+	3) id명 : 메서드명
+	4) resultType : 리턴타입유형(alias 활용)
+	5) parameterType : 매개변수타입유형(alias 활용 가능)
+	6) sql 처리 및 매개변수 활용를 위한 선언
+		#{변수명}, #{property} 선언
+		
+6. service단에서 dao 호출 및 해당 메서드 확인
+	@Autowired 
+	private @@@Dao.~ dao
+	
+	dao.XXXX() 메서드 호출 확인
 	
 	
 	
