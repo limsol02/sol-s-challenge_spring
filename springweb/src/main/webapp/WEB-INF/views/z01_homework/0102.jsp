@@ -123,13 +123,13 @@ if(dao02.login(new Member("himan","7777"))==1) {
 </div>
 
 
-<c:if test="${login==1}">
+<c:if test="${login}">
     <script type="text/javascript">
     alert("Welcome, user!")
     </script>
 </c:if>
 
-<c:if test="${login==0}">
+<c:if test="${not login}">
    <script type="text/javascript">
     alert("Goaway, man!")
     </script>
