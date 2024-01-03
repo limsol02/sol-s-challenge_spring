@@ -124,6 +124,90 @@ resource\ExpMapper.xml
 
 3. 리턴값 / 매개변수 처리 연습
 	1) 리턴값/ 매개변수가 동시에 있는 형식..
+
+## Mybatis 환경설정
+1. 파일
+	1) dispatcher-servlet.xml(컨테이너 설정)
+		- 연결객체
+		- (옵션) 트렌젝션 설정
+		- 공통마이바티즈 설정파일 지정
+		- dao 인터페이스 패키지 위치 지정
+	
+	2) java\resource\mybatis.Spring.xml(마이바티즈 공통설정)
+		패키지명이 긴 객체를 alias(별칭) 으로 간단하게 설정 mapper 파일에서 활용 
+		추가할 XXXMapper.xml 을 선언
+		
+	3) java\resource\XXXmapper.xml(업무 단위별 mapper)
+		[최상단선언]
+		<mapper namespace => dao 패키지+인터페이스명 등록> </mapper> 
+		
+		[하위 각 요소] : select, insert, update, delete
+		id => 메서드명 (dao)
+		resultType/ resultMap => 리턴타입(dao)
+		parameterType => 메서드의 매개변수 타입(dao)
+		#{property/변수명} => preparedstatement
+		${문자열변수} => 동적 query
+		
+		+ ognl(jstl의 형식 차용) : <if test="ename!=null">
+		-> 조건문 반복문에 의해 동적 query 생성
+	
+	4) java\springweb\a02_mvc\a03_dao\A01_Dao.java(업무 단위별 dao 인터페이스)
+	
+	5) service단 : 위 dao를 mapper/mybatis에 의해 만들어진 인터페이스를 상속받은 하위 객체들 활용/호출하여 처리
+	
+## DB연동 처리 형식
+0. 기본DB
+      
+1. dataSource(기본 연결 정보 처리 객체)
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <!-- 자원해제하는 메서드 선언 -->
+	  <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	  <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	  <property name="username" value="scott"/>
+      <property name="password" value="tiger"/>
+</bean>
+      
+[mybatis framework를 컨테이너에서 사용하기..]
+2. transactionManager(트랜잭션 처리 - optional) 
+     1) 공통 mybatis 설정 xml
+     2) 객체를 자동생성 하게 하는 dao interface 위치 선언. 
+      [트렌젝션? 트랜잭션(Transaction 이하 트랜잭션)이란, 데이터베이스의 상태를 변화시키기 해서 수행하는 작업의 단위를 뜻한다.
+      간단하게 말해서 아래의 질의어(SQL)를 이용하여 데이터베이스를 접근 하는 것을 의미한다.]
+      -> ref="dataSource" (위 연결 객체 할당)
+      	
+3. sqlSesscionFactory(mybatis framework 연결 및 공통 설정 파일 지정)
+      [SqlSessionFactory는 데이터베이스와의 연결과 SQL의 실행에 대한 모든 것을 가진 가장 중요한 객체다. 이 객체가 DataSource를 참조하여 MyBatis와 Mysql 서버를 연동시켜준다]
+      -> ref="dataSource" (위 연결 객체 할당)
+      	
+      configLocation::/resource/mybatis.Spring.xml(공통파일)
+      	== 사용할 vo의 alias명 지정
+      		사용할 mapper.xml 설정 처리..
+      		typeAlias alias="emp" type="springweb.z01_vo.Emp"
+      		mapper source="resource/ExpMapper.xml"
+      		== XXXMapper.xml
+				mapper namespace="springwep.a02_mvc.a03_dao.A01_Dao"
+				<select id="" parameterType="" resultType="">
+					==> 활용할 sql
+				</select>
+				== 연동된 dao 인터페이스
+			      	
+4. MapperScannerConfigurce : 
+      	자동 객체생성 interface dao 패키지 범위 설정
+      	1) basePackage : springweb.a02_mvc.a03_dao
+      	해당 패키지 안에 있는 모든 Dao interface는 실제 객체를 상속해서 DB연결 처리해준다..
+      	
+      	2) 위 내용에서 다른 패키지를 추가하려면 아래 형식으로 처리하면 된다. 
+      		value="패키지1, 패키지2,..."
+      		,로 구분하여 추가 처리...
+
+### 주로 발생하는 error 유형
+0. 객체를 인식하지 못하는 경우 java는 만들어져 있으나, 톰캣에서 사용할 때.
+	class가 연관간계자 처리 안되어 객체 인식 못하는 경우.. clean 재시작
+	또는 상단메뉴 project / clean, automatically 체크 여부 확인
+1. oraXXX => 100% sql 문제(mapper안에 있는 sql 살펴보기)
+2. sqlBadGram.. => sql문제 이거나 ; 없어야되는데 있는지 확인하기
+3. dao bean null => dao 패키지 선언(설정 확인)
+
+
 	
 ## DB 연결시 순서 ##
 

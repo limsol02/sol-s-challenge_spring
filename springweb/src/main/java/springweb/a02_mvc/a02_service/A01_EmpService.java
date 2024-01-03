@@ -13,8 +13,9 @@ import springweb.z01_vo.Emp;
 import springweb.z01_vo.EmpDTO;
 import springweb.z01_vo.Employee;
 import springweb.z01_vo.Job;
+import springweb.z01_vo.Job_History;
 import springweb.z01_vo.Location;
-import springweb.z01_vo.Member;
+import springweb.z01_vo.Region;
 
 // 서비스(모델데이터를 만들고, 조건이나 반복문등
 // 	알고리즘이 필요한 부분을 처리하는 부분)
@@ -74,9 +75,24 @@ public class A01_EmpService {
 			System.out.println(d01.getLocation()+"\n");
 		}
 		
-		System.out.println("등록한 데이터 건수 : "+dao02.insertEmp(
-				new EmpDTO(1002,"마길동","인사",7550,"2024-01-01",3000,100,10)));
+//		System.out.println("등록한 데이터 건수 : "+dao02.insertEmp(
+//				new EmpDTO(1002,"마길동","인사",7550,"2024-01-01",3000,100,10)));
+// 중복이라 에러떠서 주석처리해놨음
 		
+		System.out.println("##보다 간편한 sql 처리##");
+		for(Region rg : dao02.getRegionList("A")) {
+			System.out.println(rg.getRegion_id()+"\t");
+			System.out.println(rg.getRegion_name()+"\n");
+		}
+		
+		System.out.println("예제 job_history 확인");
+		for(Job_History jh : dao02.getJobHistory("AC")) {
+			System.out.println(jh.getEmployee_id()+"\t");
+			System.out.println(jh.getDepartment_id()+"\t");
+			System.out.println(jh.getJob_id()+"\t");
+			System.out.println(jh.getStart_date()+"\t");
+			System.out.println(jh.getEnd_date()+"\n");
+		}
 		return dao.getEmpList(sch);
 	}
 	
@@ -86,21 +102,10 @@ public class A01_EmpService {
 		if(sch.getLoc()==null) sch.setLoc("");
 		System.out.println("서비스 단 호출(dao 처리) 건수 : "+dao.getDeptList(sch).size());
 		
-		if(dao02.login(new Member("himan","7777"))==1) {			
-			System.out.println("로그인 성동" );
-		}else {
-			System.out.println("로그인 실패");
-		}
 		
-		System.out.println("등록한 데이터 건수 : "+dao02.insertMem(new Member(22,"임솔","dlathf","1515","대표",200)));
-		for(Member m01 : dao02.schMember("홍길동")) {
-			System.out.println(m01.getId()+"\t");
-			System.out.println(m01.getMno()+"\t");
-			System.out.println(m01.getAuth()+"\n");
-		}
-		//System.out.println("검색된 회원 : "+dao02.schMember("홍길동"));
 		
 //		System.out.println("등록한 데이터 건수 : "+dao02.insertDept(new Dept(11,"고객CS","논현")));
+		// 계속 등록되서 에러처리해놨음
 		return dao.getDeptList(sch);
 	}
 

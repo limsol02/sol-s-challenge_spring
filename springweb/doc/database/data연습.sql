@@ -83,3 +83,21 @@ getDepartInfo()
  * */
 
 SELECT * FROM member01 WHERE id=? pwd=?
+
+SELECT * FROM regions WHERE region_name LIKE '%' || 'A' || '%';
+/* SELECT * FROM regions WHERE region_name LIKE '%' || #{region_name} || '%' */
+
+SELECT * FROM JOB_HISTORY WHERE JOB_ID LIKE '%'||'A'||'%';
+/*
+SELECT * FROM JOB_HISTORY WHERE JOB_ID LIKE '%'||#{JOB_ID}||'%'
+
+메서드명 getJobHistory
+
+
+private String employee_id;
+private String start_date;
+private String end_date;
+private String job_id;
+private int department_id;
+
+ * */
