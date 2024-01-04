@@ -23,5 +23,11 @@
     <insert id="insertMem" parameterType="member">  
         INSERT INTO member01 VALUES (#{mno}, #{name}, #{id}, #{pwd}, #{auth}, #{point})
     </insert>
+    <!-- 
+    springweb.a02_mvc.a03_dao.A02_Dao
+    
+    int insertEmp(EmpDTO insert);
+    등록, 수정, 삭제 요소는 리턴타입을 선언하지 않더라고 해당 내용의 변경된 갯수를 리턴값으로 받는다. 
+     -->
 	
 </mapper>	
