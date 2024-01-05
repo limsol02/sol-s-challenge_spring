@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+	
+<mapper namespace="springweb.a02_mvc.a03_dao.A03_DeptDao">
+	<select id="getDeptList02" resultType="dept" parameterType="dept">
+		select * from dept01 where dname like '%' || #{dname} || '%' and loc like '%' ||loc|| '%' order by deptno
+	</select>
+	
+	<insert id="insertDept" parameterType="dept">
+		insert into dept01 values(#{deptno} , #{dname}, #{loc})
+	</insert>
+	
+	<select id="getDept" resultType="dept" parameterType="int">
+		select * from dept01 where deptno = #{deptno}
+	</select>
+
+</mapper>

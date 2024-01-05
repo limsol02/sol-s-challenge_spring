@@ -20,5 +20,6 @@
 	<!-- 공통 mapper 를 mappers 안에 등록 -->
 		<mapper resource="resource/ExpMapper.xml"/>
 		<mapper resource="resource/Exp02Mapper.xml"/>
+		<mapper resource="resource/DeptMapper.xml"/>
 	</mappers>
 </configuration>

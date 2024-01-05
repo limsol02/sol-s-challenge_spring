@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import springweb.a02_mvc.a02_service.A01_EmpService;
-import springweb.z01_vo.Dept;
+
 import springweb.z01_vo.Emp;
 
 @Controller
@@ -21,13 +21,5 @@ public class A01_EmpController {
 	
 		return "WEB-INF\\views\\a03_mvc\\a01_empList.jsp";
 	}
-	
-	@RequestMapping("dbexp02.do")
-	public String dbexp02(Dept sch, Model d) {
-		
-		d.addAttribute("deptList",service.getDeptList(sch));
-		return "WEB-INF\\views\\a03_mvc\\a02_deptList.jsp";
-	}
-
 	
 }

@@ -1,3 +1,15 @@
 # 톰캣 죽이기
 netstat -ao
 taskkill /f /pid 15892
+
+# 에러내용
+모든 에러는 발생할 수 있지만, 그 에러는 1)정리해두고 2) 원인을 파악(알고리즘) - 고민하는 시간을 반드시 가져야한다.
+
+1. nullable parameters. Cause: java.sql.SQLException: 부적합한 열 유형 : 1111
+-> sql mapper에 null을 입력되었을 때, 발생
+-> 요청값을 null 입력되지 않게 하거나, service단에서 null을 공백으로 처리해야한다. 
+
+[화면단]
+1. 행 @@에서 [/WEB-INF/views/a03_mvc/a02_deptList.jsp]을 처리하는 중 
+-> java.el.PropertyNotFoundException: [name]특성이 [springweb.z01~~~]
+-> 해당 el의 property가 없음 (dname을 name으로 오타낸경우)

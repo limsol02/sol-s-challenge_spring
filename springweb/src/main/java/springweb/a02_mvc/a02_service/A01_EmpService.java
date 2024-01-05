@@ -96,17 +96,6 @@ public class A01_EmpService {
 		return dao.getEmpList(sch);
 	}
 	
-	
-	public List<Dept> getDeptList(Dept sch){
-		if(sch.getDname()==null) sch.setDname("");
-		if(sch.getLoc()==null) sch.setLoc("");
-		System.out.println("서비스 단 호출(dao 처리) 건수 : "+dao.getDeptList(sch).size());
-		
-		
-		
-//		System.out.println("등록한 데이터 건수 : "+dao02.insertDept(new Dept(11,"고객CS","논현")));
-		// 계속 등록되서 에러처리해놨음
-		return dao.getDeptList(sch);
-	}
+
 
 }

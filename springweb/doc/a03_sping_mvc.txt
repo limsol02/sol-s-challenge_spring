@@ -62,33 +62,67 @@
 	7) [controller단] 요청값에 받았을 때, 모델 데이터에 대한 선언을 처리한다.
 	8] [view단] 위 모델데이터를 화면에 처리할 위치나 방법을 결정하고 출력한다.
 	9] 전체 테스트 진행
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
+## 부서정보 관리
+1. 부서정보 리스트
+	1) sql
+	2) vo
+	3) dao interface/mapper처리 - db등록
+--------------------------	
+	4) service
+	5) controller
+	6) view단 처리
+
+2. 부서정보등록
+	0) 등록화면 호출
+		- 등록화면 클릭 시, 등록화면 호출 : insertDeptFrm.do
+		- controller
+			insertDeptFrm.do
+		insertDeptFrm.do -> a03_insertDept.jsp
+			<input name="dname"...>
+			<input name="loc"...>
+			<input name="deptno"...>
+				<form action="${path}/insertDept.do"
+	-----------------------------------------------------------------------	
+	1) sql
+	2) vo
+	3) dao/mapper
+		int insertDept(Dept ins);
+	4) service 호출
+	5) controller
+		insertDept.do
+		public String insertDept(Dept ins, Model d){
+			d.addAttribute("msg",...);
+		}	
+		insertDeptFrm.do(insertInsert.jsp)
+	6) jsp
+	- 등록버튼 클릭시, 등록화면 호출 : insertDeptFrm.do
+	- var msg = "${msg}"
+	등록처리완료
+		
+3. 부서정보(수정/삭제) 화면로딩
+	0) jsp(a02_deptList.jsp)
+		<tr ondblclick="goDetail(${dept.deptno})">
+		function goDetail(deptno){
+    		location.href="${path}/dept.do?deptno="+deptno;
+    	}
+	-----------------------------------------------------------------------	
+	1) sql : select * from dept01 where deptno = #{deptno}
+	2) vo
+	3) dao/mapper
+		int getDept(int deptno);
+	4) service 호출
+	5) controller
+		dept.do
+			d.addAttribute("dept",service.getDept(detpno));
+			return "a04_deptDetail.jsp"
+	
+	6) view(jsp)
+		value="${dept.deptno}"
+		value="${dept.dname}"
+		value="${dept.loc}"
+
+
 
 
 3. 위 플로우에 의해서 개발을 다음과 가은 순서로 진행한다.

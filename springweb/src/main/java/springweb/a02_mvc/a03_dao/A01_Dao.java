@@ -24,7 +24,7 @@ public interface A01_Dao {
 	public List<Emp> getEmpList(Emp sch);
 	public int getCountEmp();
 	public int getCountDept();
-	public List<Dept> getDeptList(Dept sch);
+	
 	public String getDnameByDname(int deptno);
 	public Emp getEmp(int empno);
 	

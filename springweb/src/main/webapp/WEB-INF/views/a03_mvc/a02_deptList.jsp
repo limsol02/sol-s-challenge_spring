@@ -33,6 +33,11 @@
 				e.preventDefault() // enter키의 기본 동작을 중단 처리
 			}
 		}) // enter키의 기본 동작을 중단 처리
+		
+		$("#regBtn").click(function(){
+			location.href="${path}/insertDeptFrm.do";
+		})
+		
       <%-- 
       
       --%>   
@@ -49,11 +54,11 @@
 <div class="container">
    <form id="frm01" class="form"  method="post">
      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-       <input class="form-control mr-sm-2" placeholder="부서명 입력" name="dname" value="${dept.dname}" />
-       <input class="form-control mr-sm-2" placeholder="지역명 입력" name="loc" value="${dept.loc}"/>
+       <input class="form-control mr-sm-2" placeholder="부서명 입력" name="dname" value="${param.dname}" />
+       <input class="form-control mr-sm-2" placeholder="지역명 입력" name="loc" value="${param.loc}"/>
        <button class="btn btn-info" type="submit">Search</button>
-       <button class="btn btn-success" 
-          data-toggle="modal" data-target="#exampleModalCenter"
+       <button class="btn btn-success" id="regBtn"
+     
            type="button">등록</button>
     </nav>
    </form>
@@ -70,7 +75,7 @@
     <tbody>
     
        <c:forEach items="${deptList}" var="dept">
-       <tr>
+       <tr ondblclick="goDetail(${dept.deptno})">
        <td>${dept.deptno}</td>
        <td>${dept.dname}</td>
        <td>${dept.loc}</td>
@@ -79,7 +84,11 @@
        
     </tbody>
    </table>    
-    
+    <script>
+    	function goDetail(deptno){
+    		location.href="${path}/dept.do?deptno="+deptno;
+    	}
+    </script>
 </div>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
