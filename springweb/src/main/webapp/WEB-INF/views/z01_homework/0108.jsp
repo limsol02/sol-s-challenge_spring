@@ -214,7 +214,7 @@ style type ="text /css ">.input-group-text {
 				<div class="input-group-prepend ">
 					<span class="input-group-text  justify-content-center">과제이름</span>
 				</div>
-				<input name="fname" class="form-control" value=""  />
+				<input name="report_name" class="form-control" value=""  />
 				<div class="input-group-append">
 					<div id=""></div>
 				</div>
