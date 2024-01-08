@@ -21,5 +21,6 @@
 		<mapper resource="resource/ExpMapper.xml"/>
 		<mapper resource="resource/Exp02Mapper.xml"/>
 		<mapper resource="resource/DeptMapper.xml"/>
+		<mapper resource="resource/LocationMapper.xml"/>
 	</mappers>
 </configuration>

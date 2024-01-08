@@ -35,3 +35,13 @@ INSERT INTO phoneInfo01 values('himan','010-4444-7777','취미용');
 -- 2. 다중데이터 뿐만 아니라 연계된 속성도 포함되어 있을 때..
 SELECT * FROM CUSTOMER2 a, PHONEINFO01 p 
 WHERE a.cu_id = p.CU_ID ;
+
+
+create table(
+			no number, 
+			fname varchar2(100),
+			path varchar2(500),
+			regdte date,
+			uptdte date,
+			etc varchar2(1000)
+		);

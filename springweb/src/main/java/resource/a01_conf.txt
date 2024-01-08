@@ -1,0 +1,9 @@
+# 업로드할 파일 경로
+file.upload=C:\\b01_javaexp\\workspace\\sol-s-challenge_spring\\springweb\\src\\main\\webapp\\z02_upload\\
+file.upload02=C:\\b01_javaexp\\workspace\\sol-s-challenge_spring\\springweb\\src\\main\\webapp\\z03_upload\\
+
+# DB서버 정보
+db.driver=oracle.jdbc.driver.OracleDriver
+db.host=jdbc:oracle:thin:@localhost:1521:xe
+db.user=scott
+db.pwd=tiger

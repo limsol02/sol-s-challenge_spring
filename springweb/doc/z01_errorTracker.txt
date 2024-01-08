@@ -9,7 +9,15 @@ taskkill /f /pid 15892
 -> sql mapper에 null을 입력되었을 때, 발생
 -> 요청값을 null 입력되지 않게 하거나, service단에서 null을 공백으로 처리해야한다. 
 
-[화면단]
+2. [화면단]
 1. 행 @@에서 [/WEB-INF/views/a03_mvc/a02_deptList.jsp]을 처리하는 중 
 -> java.el.PropertyNotFoundException: [name]특성이 [springweb.z01~~~]
 -> 해당 el의 property가 없음 (dname을 name으로 오타낸경우)
+
+3. 스프링 class 통일/url mapping이 동일한 경우 애러 발생
+4. 스프링에서 주로 나는 에러는 데이터흐름 관련한 내용이 많다.
+	1) form의 요청값 이름 확인(name=@@@)
+	2) vo요청에 의한 property설정
+	3) sql mapping 에러
+	4) 화면단 모델 데이터 설정 및 모델 property
+		${모델명.프로퍼티}

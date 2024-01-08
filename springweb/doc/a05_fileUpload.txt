@@ -1,0 +1,71 @@
+# 파일업로드 다운로드
+1. 기능
+	1) 웹 화면에서 파일을 선택하여 브라우저화면에서 등록을 하면
+		서버로 전송하여 웹서버에 특정한 위치에 파일이 업로드 처리된다.
+	2) 특정한 파일을 브라우저 화면에서 확인하면, 클릭 시 서버에 있는
+		파일이 클라이언트(브라우저화면)에서 다운로드 처리가 된다.
+	
+	[주의] 원격에 있는 서버의 경로에 업로드
+		클라이언트		서버
+		        ==> 특정한 경로
+		        <==
+	수업중에는 클라이언트/서버를 같이 쓰기 때문에 프로젝트 설정 시 
+	위 개념을 이해하지 않고 설정하는 경우가 많음.
+
+
+	4) controller
+		public String upload(@RequestParam("report")MutipartFile report)
+		
+	5) service 단
+		MutipartFile을 File 객체로 변환하여 특정위치에 저장
+		report.transgerTo(new File(파일경로/파일명));
+		
+3. 위 내용을 기반으로 
+	0) 컨테이너에 설정으로 특정한 업로드할 파일 위치 지정.. 중요정보를 파일로 따로 관리하는 설정 처리
+	1) 다른 정보와 함께 파일업로드
+	2) 다른 정보와 함께 다중파일 업로드
+	3) DB정보 입력 처리(업로드한 파일을 다운로드 처리를 위해서) 업로드하면서 파일정보를 DB에 insert처리..
+	
+## DB 연동처리
+1. 파일업로드된 자료는 추후에 활용하려면 DB에 등록하여야 한다.
+2. DB에 등록된 파일 정보를 통해서 다운로드 처리하거나 등록된 정보를 활용할 수 있다.
+3. 처리순서
+	1) DB구조
+		create table(
+			no number, 
+			fname varchar2(100),
+			path varchar2(500),
+			regdte date,
+			uptdte date,
+			etc varchar2(1000)
+		);
+	
+	
+	
+		filerep(no, fname, path, regdte, uptdte, etc)
+		no : 게시판의 기본번호와 mapping되는 no // foreign key
+		fname :파일명
+		path : 경로명(파일업로드 경로가 여러군데 인경우)
+		regdte : 등록된 시간
+		uptdte : 수정된 시간
+		etc : 기타정보
+	
+	2) 입력sql
+		insert into filerep values(1,'aaa.txt','',sysdate,sysdate,'');
+		
+	3) 입력을 위한 VO
+		class FileRep
+			private int no;
+			private String fname;
+			private String path;
+			private Date regdte;
+			private Date uptdte;
+			private String etx;
+			
+	4) dao interface/ mapper/ 공통mybatis
+		public int uploadFile(FileRep);
+		
+		insert into filerep values(board_seq.currval, #{fname}, #{path}, sysdate, sysdate, #{etc})
+		
+	5) service
+		화면에 insertBoard 처리시 for을 통한 파일 업로드 처리.
