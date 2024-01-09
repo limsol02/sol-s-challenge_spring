@@ -1,0 +1,74 @@
+# spring에서 session처리
+1. 스프링에서도 session 개념을 이용하여 client단과 server단의 연결처리를 수행하여 로그인 후,
+	session 정보데이터를 DB로 가져와서 화면이 이동되더라도 필요로 하는 권한별 체크를 하여
+	권한에 따라 클릭 가능한 버튼, 이동가능한 메뉴 session값을 등록함으로 권한의 비교 처리 등
+	다양한 권한별 기능 처리가 가능하게 한다.
+	
+2. 주요기능 처리
+	1) 로그인 후, session 처리
+	2) 게시판에 등록자를 현재 session을 id로 등록
+	3) 게시물의 수정/삭제시 현재 login 한 session과 등록된 session을 비교하여 해당 권한이 있을 때, 수정/삭제 처리 가능
+	4) session을 확인 후, session이 없을 때는 login하여 처리되도록 javascript단에서 처리..
+
+3. 핵심 키워드 & 코드
+	1) HttpSession session : 세션을 처리할 수 있는 객체로 로그인 시 DB에 인증되었을 때 할당 처리..
+		이후에 모든 화면에 이 session 유효만료기간에 따라 처리되게 한다.
+		.setAttribute("세션키",할당할 객체)
+		
+	2) var memId = "${mem.id}" : 
+		[로그인 처리 함수]
+		if(memId==""){
+			alert("로그인이 필요합니다.\n 로그인 페이지로 이동합니다.")
+			location.href="${path}/loginFrm.do";
+		}
+		
+		[수정삭제 처리 함수]
+		function deleteBoard()=updateBoard(){
+			var writerVal = $("[name=writer]").val()
+			if(memId!=writerVal){
+				alert("게시물의 수정,삭제는 등록자만이 가능합니다.")
+				return;
+			}
+		}
+	    
+	    [권한처리 페이지 이동함수]
+	    function goPage(menu){
+	    	vat memAuth = "${mem.auth}"
+	    	if(menu=="adminMenu" && memAuth!="admin"){
+	    		alert("해당메뉴관리자 권한이 필요합니다.")
+	    		return;
+	    	}
+	    }
+	    
+	    3) 작성자를 session에 있는 id로만 저장 가능하게 처리
+	    	<input name="writer" readonly value="${mem.id}"/>
+	    	
+# DB 처리순서
+1. DB sql 확인
+	[member] 
+	select * from member where id = #{id} and pwd = #{pwd}
+	class Member{
+		private String id;
+		private String pwd;
+		private String name;
+		private String auth;
+		private int point;
+	}
+	
+2. Dao interface처리
+	[interface=java\springweb\a02_mvc\a03_dao\A04_MemberDao.java]
+	interface A04_MemberDao{
+		Member login(Member sch);
+	
+	} 
+	
+3. controller(A04_MemberController)
+	1) 로그인화면호출
+	2) 로그인 후, 처리 session 설정..
+	3) 다른 메뉴에서 session값 확인 테스트
+
+4. service(A04_MemberService)
+	dao 호출..
+
+5. view(/a03_mvc/a07_login.jsp)
+	로그인 화면 처리	

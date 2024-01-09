@@ -69,3 +69,51 @@
 		
 	5) service
 		화면에 insertBoard 처리시 for을 통한 파일 업로드 처리.
+		
+# 업로드 처리 프로세스(업로드 + DB저장)
+1. 핵심 진행 내용
+	0) 파일서버내의 위치지정(java\resource\a01_conf.txt)
+	
+	
+	1) 컨테이너 설정(\WEB-INF\dispatcher-servlet.xml)
+		공통설정의 key설정
+		파일업로드를 처리하는 객체(view) 선언
+	
+	2) Controller(java\springweb\a02_mvc\a01_controller\A03_FileController.java)
+		초기부서 정보 화면 로딩
+		등록시 파일 업로드 처리하고 부서정보를 등록
+	
+	3) Service(java\springweb\a02_mvc\a02_service\A02_DeptService.java)
+		부서정보등록하는 dao 호출과 파일업로드 정보 반복에 의해 dao로 등록
+	
+	4) dao/mapper (java\springweb\a02_mvc\a03_dao\A03_DeptDao.java)
+		업로드파일 정보등록
+	
+	5) view(WEB-INF\views\a03_mvc\a06_fileUploadFrm.jsp)
+		부서정보와 파일업로드를 화면으로 등록처리
+		@Insert("dept등록 sql")
+		int insertDept(Dept ins);
+		
+		@Insert("insert into filerep values (#{no},#{fname},#{path},sysdate,sysdate,#{etc})")
+		int uploadFile(FileRep ins);
+	
+	6) vo
+		부서정보와 파일 업로드를 서버에 전달(java\springweb\z01_vo\DeptFile.java)
+		파일정보를 저장(java\springweb\z01_vo\FileRep.java) 
+		
+2. 주요 핵심 코드
+	1) viewe 단(jsp)
+		<form method="post" enctype="multipart/form-data">
+		<input type="file" multiple="multiple" name="reports"/>
+		[1] 파일 업로드하는 type
+		[2] 다중으로 파일을 업로드하게 설정 multiple="multiple"
+		[3] 요청값 객체안에 이름으로 전달할 property : reports
+		==> vo객체(DeptFile)안에 다른 요청값과 함께 전달할 때, 처리되는 객체 MultiPartFile [] reports
+		setReports(MultipartFile[] reports)
+		String fileUpload02(DeptFile df, Model d)
+	
+	2) 공통으로 설정된 파일경로위치를 java단에서 호출
+		@Value("${file.upload}")
+		private String path;
+		
+		
