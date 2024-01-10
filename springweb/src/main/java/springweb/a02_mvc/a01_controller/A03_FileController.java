@@ -78,7 +78,13 @@ public class A03_FileController {
 		return "WEB-INF\\views\\a03_mvc\\a06_fileUploadFrm.jsp";
 	}
 	
-	
+	@GetMapping("fileDownLoadExp.do")
+	public String fileDownLoadExp(Model d) {
+		File f = new File(path);
+		System.out.println("파일명 : "+f.list()[0]);
+		d.addAttribute("flist",f.list());
+		return  "WEB-INF\\views\\a03_mvc\\a08_downloadTest.jsp";
+	}
 	
 	
 }

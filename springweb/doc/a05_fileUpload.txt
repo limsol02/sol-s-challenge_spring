@@ -12,9 +12,31 @@
 	수업중에는 클라이언트/서버를 같이 쓰기 때문에 프로젝트 설정 시 
 	위 개념을 이해하지 않고 설정하는 경우가 많음.
 
-
+	3) jsp(view)
+		<form enctype="multipartform-data">
+			<input type="file" name="report"> ==> @RequestParam("report")MutipartFile report)
+			<input type="file" name="report" multiple="multiple"> ==> @RequestParam("reports")MutipartFile[] reports)
+			<input type="text" name="name">
+			<input type="text" name="age">
+		==> ?age=15&name=홍길동&report=스트림binary형식전달
+		
+	
 	4) controller
-		public String upload(@RequestParam("report")MutipartFile report)
+		public String upload(
+			@RequestParam("age")int age,
+			@RequestParam("name")String name,
+			@RequestParam("report")MutipartFile report)
+		
+		class Person{
+			private int age;
+			private String name;
+			private MutipartFile reports;
+			//set / getXXX() 메서드 처리..
+		}
+		
+		public String upload(Person p01) 요청값 + 모델데이터
+		화면에서 요청값과 모델데이터를 같이 처리하기에 아래와 같이 사용가능
+		${person.name} ${person.age} 
 		
 	5) service 단
 		MutipartFile을 File 객체로 변환하여 특정위치에 저장
