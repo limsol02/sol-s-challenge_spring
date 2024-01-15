@@ -101,3 +101,10 @@ private String job_id;
 private int department_id;
 
  * */
+
+select level, b.* 
+		from board b
+		where 1=1
+		start with refno=0
+		connect by prior no = refno
+		order siblings by no DESC;

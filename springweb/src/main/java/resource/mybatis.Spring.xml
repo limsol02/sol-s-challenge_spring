@@ -12,6 +12,8 @@
 		<typeAlias type="springweb.z01_vo.Depart" alias="depart"/>
 		<typeAlias type="springweb.z01_vo.EmpDTO" alias="empDto"/>
 		<typeAlias type="springweb.z01_vo.Member" alias="member"/>
+		<typeAlias type="springweb.z01_vo.BoardSch" alias="boardSch"/>
+		<typeAlias type="springweb.z01_vo.Board" alias="board"/>
 	</typeAliases>
 	
 	
@@ -22,5 +24,6 @@
 		<mapper resource="resource/Exp02Mapper.xml"/>
 		<mapper resource="resource/DeptMapper.xml"/>
 		<mapper resource="resource/LocationMapper.xml"/>
+		<mapper resource="resource/BoardMapper.xml"/>
 	</mappers>
 </configuration>

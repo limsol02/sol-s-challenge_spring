@@ -1,0 +1,33 @@
+# 게시판 페이지 처리
+1. 파일
+	A05_BoardController.java
+	A05_BoardService.java
+	A05_BoardDao.java
+	
+	BoardMapper.xml
+	BoardSch.java
+	Board.java
+	
+	WEB-INF/views/a03_mvc/a10_boardList.jsp
+	
+2. 개발순서
+# 기본검색처리 : 작성자(Writer)와 제목(title)
+	1) 초기화면 로딩 boardList.do
+	
+	2) 데이터베이스 처리
+		sql / mapper / dao 선언 List<Board> boardList(BoardSch sch);
+	
+	3) service단 처리
+	
+	4) controller단 처리
+	
+	5) jsp(view단 처리)
+===========================================================================
+# 페이징처리
+	1) DB 
+		sql 변경
+		dao : int getTot(BoardSch sch);
+	
+	2) service단 페이징 처리 알고리즘
+	
+	3) jsp(view단 처리)
