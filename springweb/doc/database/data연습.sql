@@ -108,3 +108,37 @@ select level, b.*
 		start with refno=0
 		connect by prior no = refno
 		order siblings by no DESC;
+-- 캘린더 테이블
+	create table calendar(
+		id number primary key,
+		title varchar2(100),
+		start1 date,
+		end1 date,
+		writer varchar2(50),
+		content varchar2(2000),
+		backgroundcolor varchar2(7),
+		textcolor varchar2(7),
+		allday number(1),
+		url varchar2(500)
+	);
+	
+	create sequence cal_seq;
+INSERT INTO calendar values(cal_seq.nextval,'첫일정등록',sysdate,sysdate+1,'홍길동','일정내용','#0099cc','#ccffff',1,'');
+SELECT * FROM CALENDAR c ;
+/*
+class Calendar
+	private int id;
+	private String title;
+	private String start;
+	private String end;
+	private String writer;
+	private String content;
+	private String backgroundcolor;
+	private String textcolor;
+	private boolean allday;
+	private String url;
+ * */
+	select id, title, writer, to_char(start1,'YYYY-MM-DD"T"HH24:MI:SS"+09:00"') start1,
+		to_char(start1,'YYYY-MM-DD"T"HH24:MI:SS"+09:00"') end1, content, backgroundcolor, textcolor, allday, url from calendar;
+		
+	UPDATE CALENDAR SET url=' ';

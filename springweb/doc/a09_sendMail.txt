@@ -20,3 +20,18 @@
 	5) 발송내용전송: 사용자가 발송받은 내용을 입력하고 전송버튼을 클릭하면, 컨트롤러 호출
 	6) 발신처리 : 서비스 계층에서 컨테이너에 설정된 정보를 이용하여 메일 발송처리를 수행
 	7) 컨트롤러 및 서비스 계층 구현 : 메일 발송 후, 서비스, 컨트롤러, 화면단을 처리
+	
+// 기타 속성지정
+						MimeMessageHelper helper = new MimeMessageHelper(
+								mmsg,
+								MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+								StandardCharsets.UTF_8.name());
+					// 발신자 지정
+						helper.setFrom("발신자메일주소");
+						helper.setTo("수신자메일주소");
+						helper.setCc("참조메일주소");
+						helper.setBcc("숨은참조주소");
+						helper.setSubject("메일제목");
+						helper.setText("html형식 내용 설정가능/내용입력");
+						helper.addAttachment("파일명", new File("실제파일경로와 파일명"));
+						sender.send(mmsg);	
