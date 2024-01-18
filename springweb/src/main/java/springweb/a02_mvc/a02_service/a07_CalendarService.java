@@ -17,5 +17,9 @@ public class a07_CalendarService {
 		return dao.getCalList();
 	}
 	
+	public String insertCalendar(Calendar ins) {
+		return dao.insertCal(ins)>0?"등록성공":"등록실패";
+	}
+	
 	
 }

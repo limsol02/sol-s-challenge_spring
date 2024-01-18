@@ -68,3 +68,93 @@ json 데이터 형식을 사용해 백엔드와 프론트엔드 간의 효율적
 	2) 요청값 + 모델 데이터 처리
 	3) DB연동 + 요청값 + 모델 데이터(json)
 	4) 실무 화면에서 ajax 처리
+	
+# 전체 일정 데이터 처리
+1. Json 데이터에 의한 DB구조 설정/ 테이블생성/ sequence생성
+2. 기본 sql문 작성
+3. vo 작성(DB select문에 의해 조회된 내용을 VO객체로 할당한 후다시 json데이터로 로딩하여 화면단에 전달될 수 있는 구조로 확인)
+4. dao/mapper/공통mybatis 작성
+5. service
+6. controller 단
+	1) json데이터를 로딩하기 위한 pageJsonReport View 처리
+	2) service단에서 받은 데이터 model로 설정
+7. resource 메서드를통해서 ajax를 이용해 만들어 놓은 DB연동처리를 통한 json 데이터 호출 처리..(초기일정처리완료)
+
+# 속성변경하기
+1. 초기로딩하는 기준일 : 오늘로 변경처리
+	initialDate : ISO형식으로 오늘 날짜로 처리..
+	var Today = new Date();
+	var TodayISO = Today.toISOString().split("T")[0] // 오늘 날짜 추출
+	initialDate = TodayISO;
+
+# 일정등록 처리
+1. select에 이베늩 핸들러에서 처리되는 내장된 속성값이 어떤게 있는지 확인한다.
+
+2. 입력할 정보를 처리하고, sql을 만든다.
+INSERT INTO calendar values(cal_seq.nextval,#{title},to_date(#{start},'YYYY-MM-DD"T"HH24:MI:SS"+09:00"'),
+to_date(#{end},'YYYY-MM-DD"T"HH24:MI:SS"+09:00"',#{writer},#{content},#{backgroundColor},#{textColor},#{allDay},#{url})
+int insertCal(Calendar ins);
+
+# calendar API 에서 사용하는 날짜처리형식? js Date객체를 ISO 형식으로 처리된 YYYY-MM-DDHH24:MI:SS+09:00 으로 사용된다.  
+데이터베이스는 Date속성으로 처리되기 때문에 입력할때나 수정시, 조회할 때 위 형식으로 변환처리해야한다. 
+
+to_date(#{start},'YYYY-MM-DDHH24:MI:SS') ==> to_date(#{start},'YYYY-MM-DDHH24:MI:SS+09:00')
+
+[ex] 아래 api의 json형식
+start : '2023-01-12T10:30:00',
+JS DATE의 toISOString()
+- select 시에는 to_char(날짜,'위 iso형식') 날짜를 ISO문자열 형식
+- insert/update시에는 to_date('iso형식 문자열','iso형식') ISO문자열형식을 DB의 날짜(date)형식으로 변환 
+
+title(입력), start(arg.start날짜==>ISO)
+end(arg.end날짜==>ISO), writer(입력), content(입력)
+background(color로 입력), textcolor(color입력)
+allday(선택시자동입력), url(입력)
+
+
+3. DB처리(dao/mapper 처리)
+	- int insertCal(Calendar ins);
+
+4. 화면단 처리
+	1) 모달창으로 입력 form 생성 
+	2) 모달창으로 입력 Form생성
+		입력항목 / 로딩된 항목 확인
+		등록버튼 클릭시 데이터 입력처리
+
+# 등록된 일정 확인 및 수정/삭제 처리
+1. 상세화면에서 수정
+2. 스크롤로 일정변경(일정이동, 일정시간 변경 등)
+
+# 수정처리 형식에 따른 이벤트 처리
+
+####전체구조####
+[controller]
+- A07_FullCalendarController.java
+	calendar.do : 화면폼(JSP)
+	calList.do : (조회)리스트(JSP)
+	insertCalendar.do : 등록처리(등록처리후 msg, 전체 데이터 JSON)
+	=> JSP화면 안에 등록하면 ajax처리할 떄 사용(등록하면 데이터를 서버에 전송하고,
+	전송 결과를 msg 모델 데이터로 받고 DB등록 후 최종 전체리스트 모델 받음)
+
+[DB조회/등록]
+- A07_CalendarDao.java // CalendarMapper.xml
+	List<Calendar> getCalList();
+	int insertCalendar(Calendar ins);
+
+====BackEnd 끝!=============================================================================
+
+[view]
+- a12_fullcalendar.jsp
+	초기데이터 로딩
+		calendar.do 를 통해 초기화면 jsp를 호출하면서 resource 속성으로 함수를 호출하면
+		전체 DB에 있는 일정 json데이터를 ajax에 의해 가져와서(calList.do)
+		fullcalendar api에 할당 처리한다.
+		
+	모달화면
+		등록처리
+		=> select() 이벤트에 의해서 기본 form이 로딩되어 처리할 수 있게 해놓고,
+		입력이 되면 ajax를 통해 form 에 입력된 정보들이 등록처리(insertCalendar.do 호출)
+		해당 메서드를 호출하면 입력/입력 후 전체 데이터를 가져온다.
+		내용확인 및 수정/삭제처리
+		
+			내용확인 및 수정/ 삭제처리

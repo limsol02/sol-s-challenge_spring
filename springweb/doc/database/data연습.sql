@@ -124,6 +124,24 @@ select level, b.*
 	
 	create sequence cal_seq;
 INSERT INTO calendar values(cal_seq.nextval,'첫일정등록',sysdate,sysdate+1,'홍길동','일정내용','#0099cc','#ccffff',1,'');
+INSERT INTO calendar values(cal_seq.nextval,'둘일정등록',sysdate,sysdate,'마길동','일정내용','#FFD94D','#000000',1,' ');
+/*
+INSERT INTO calendar values(cal_seq.nextval,#{title},to_date(#{start},'YYYY-MM-DDHH24:MI:SS'),sysdate,#{writer},#{content},#{backgroundColor},#{textColor},#{allDay},#{url})
+
+# calendar API 에서 사용하는 날짜처리형식? js Date객체를 ISO 형식으로 처리된 YYYY-MM-DDHH24:MI:SS+09:00 으로 사용된다.  
+데이터베이스는 Date속성으로 처리되기 때문에 입력할때나 수정시, 조회할 때 위 형식으로 변환처리해야한다. 
+
+to_date(#{start},'YYYY-MM-DDHH24:MI:SS') ==> to_date(#{start},'YYYY-MM-DDHH24:MI:SS+09:00')
+
+JS DATE의 toISOString()
+select 시에는 to_char(날짜,'위 iso형식') 날짜를 ISO문자엷형식
+insert/update시에는 to_date('위 iso형식',) ISO문자열형시을 DB에 
+
+title(입력), start(arg.start날짜==>ISO)
+end(arg.end날짜==>ISO), writer(입력), content(입력)
+background(color로 입력), textcolor(color입력)
+allday(선택시자동입력), url(입력)
+ * */
 SELECT * FROM CALENDAR c ;
 /*
 class Calendar

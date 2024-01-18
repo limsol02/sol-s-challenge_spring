@@ -13,4 +13,9 @@
 		select id, title, writer, to_char(start1,'YYYY-MM-DD"T"HH24:MI:SS"+09:00"') start1,
 		to_char(end1,'YYYY-MM-DD"T"HH24:MI:SS"+09:00"') end1, content, backgroundcolor, textcolor, allday, url from calendar
 	</select> 
+	
+	<insert id="insertCal" parameterType="calendar">
+		INSERT INTO calendar values(cal_seq.nextval,#{title},to_date(#{start},'YYYY-MM-DD"T"HH24:MI:SS"+09:00"'),
+		to_date(#{end},'YYYY-MM-DD"T"HH24:MI:SS"+09:00"'),#{writer},#{content},#{backgroundColor},#{textColor},#{allDay},#{url})
+	</insert>
 </mapper>

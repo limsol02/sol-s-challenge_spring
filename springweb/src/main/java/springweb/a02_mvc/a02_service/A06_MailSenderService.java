@@ -14,7 +14,21 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import springweb.z01_vo.MailSender;
+/*
+# 회사 인사시스템에서 아이디 생성/비밀번호/메일발송/인사기본 데이터 저장
+1. 인사담당자 : 메일:[  ] 클릭
+2. 요청값을 받아서
+	1) 회사사번생성(DB sequence + 부서코드 + 회사코드 + 입사일 조합)
+	2) 임시비번생성(숫자 + 알파벳char 랜덤으로 자리수로 생성)
+	3) 입력한 메일주소와 함께 DB에 등록
+	4) 메일주소로 서버/비번을 타이틀과 내용을 발송 처리
+	
+3. 메일을 받은 사원은 생성된 사번과 임시비번으로 로그인하여, 개인정보를 추가 등록 처리한다.
 
+# 아이디와 비밀번호를 잊었을 때
+1. 등록한 메일 주소를 입력하세요.[  ] 
+2. 해당 메일주소로 아이디와 비밀번호를 메일로 발송처리
+ * */
 @Service
 public class A06_MailSenderService {
 	// container에서 메일을 발송하는 객체 로딩..

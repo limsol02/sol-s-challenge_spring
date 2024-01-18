@@ -6,4 +6,5 @@ import springweb.z01_vo.Calendar;
 
 public interface A07_CalendarDao {
 	List<Calendar> getCalList();
+	int insertCal(Calendar ins);
 }
