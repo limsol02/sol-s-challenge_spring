@@ -123,7 +123,7 @@
 			<span class="input-group-text  justify-content-center">
 				참고 link</span>
 		</div>
-		<input type="text" name="url" class="form-control" value="" />	
+		<input type="text" name="urlLink" class="form-control" value="" />	
 	</div>							
 	<div style="text-align:right;">
 		<input type="button" class="btn btn-info" value="등록" id="regBtn"/>

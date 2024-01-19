@@ -151,10 +151,24 @@ allday(선택시자동입력), url(입력)
 		fullcalendar api에 할당 처리한다.
 		
 	모달화면
-		등록처리
+		# [등록처리]
 		=> select() 이벤트에 의해서 기본 form이 로딩되어 처리할 수 있게 해놓고,
 		입력이 되면 ajax를 통해 form 에 입력된 정보들이 등록처리(insertCalendar.do 호출)
 		해당 메서드를 호출하면 입력/입력 후 전체 데이터를 가져온다.
-		내용확인 및 수정/삭제처리
 		
-			내용확인 및 수정/ 삭제처리
+		# [내용확인 및 수정/ 삭제처리]
+		=> eventClick() 이벤트에 의해서 상세 정보를 arg를 통해서 가져오고
+		모달창을 촐해 출력하여 화면을 볼 수 있게 한다.
+		arg.event : 해당 일정에 등록된 속성
+		들어가있는 내용에서 상세정보들을 모달창 form에 할당한 후, 로딩한다
+		$("#modal01").click()
+		
+		[ex] $("[name=id]").val(arg.event.id)
+		[ex] $("[name=title]").val(arg.event.title)
+		등록과 동일한 모달창이기에 기능버튼을 보이기/보이지않게 처리
+		[ex] $("#regBtn").hide() // $("#uptBtn").show() // $("#delBtn").show()
+		
+## 삭제
+[sql] delete from calendar where id = #{id}
+[dao] int deleteCal(int id)
+		

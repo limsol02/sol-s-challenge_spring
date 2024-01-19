@@ -53,18 +53,19 @@ body {
 <script src='${path}/a00_com/dist/index.global.js'></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
-	});
-	var calendar = {};
-	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
-		var today = new Date();
+		var today = new Date(); // 날짜형 js 객체
 		console.log(today)
+		console.log(today.toLocaleString())
+		// GMT기준으로 시간별 경도의 날짜/시간표시
 		console.log(today.toISOString())
+		// 전세계 표준시간(GMT)
 		console.log(today.toISOString().split("T"))
+		// 시간과 날짜를 배열로 구분해서 출력..
 		var todayTitle = today.toISOString().split("T")[0]
+		// 날짜만 표현..(기준시간을 지정)
 		console.log(todayTitle)
-		calendar = new FullCalendar.Calendar(calendarEl, {
+		var calendar = new FullCalendar.Calendar(calendarEl, {
 			headerToolbar : {
 				left : 'prev,next today',
 				center : 'title',
@@ -83,15 +84,20 @@ body {
 				console.log("종료일(Date):" + arg.end)
 				console.log("종일여부:" + arg.allDay)
 				// 초기화..
+				// 등록하기 위해서 모달창을 로딩/모달창에 form name값에
+				// 해당 기본데이터를 설정..
 				$("#frm01")[0].reset()
 				$("#calTitle").text("일정등록")
 				$("#start").val(arg.start.toLocaleString())
 				$("[name=start]").val(arg.startStr)
 				$("#end").val(arg.end.toLocaleString())
 				$("[name=end]").val(arg.endStr)
-				$("[name=allDay]").val(arg.allDay?1:0)
+				$("[name=allDay]").val(arg.allDay ? 1 : 0)
 				// 강제 클릭..
+				$("#calTitle").text("일정등록")
+				$("#regBtn").show();  $("#uptBtn").hide(); $("#delBtn").hide();
 				$("#calModal").click()
+				
 				/*
 				var title = prompt('Event Title:');
 				if (title) {
@@ -104,12 +110,35 @@ body {
 				}
 				
 				 */
-				 calendar.unselect() 
+				calendar.unselect()
 			},
 			eventClick : function(arg) {
-				if (confirm('Are you sure you want to delete this event?')) {
-					arg.event.remove()
-				}
+				console.log("#일정 클릭시#")
+				console.log(arg.event)
+				var evt = arg.event
+				//if (confirm('Are you sure you want to delete this event?')) {
+					//arg.event.remove()
+				//}
+				
+				// evt.속성 : 기본적으로 fullcalendar에서 사용하는 속성(selecttable에서 확인가능)
+				// evt.extendedProps.속성 : 기본속성이 아닌 추가적으로 상세화면에 사용되는 속성
+				$("[name=id]").val(evt.id)
+				$("[name=title]").val(evt.title)
+				$("[name=writer]").val(evt.extendedProps.writer)
+				$("[name=content]").val(evt.extendedProps.content)
+				$("#start").val(evt.start.toLocaleString())
+				$("[name=start]").val(evt.startStr)
+				$("#end").val(evt.end.toLocaleString())
+				$("[name=end]").val(evt.endStr)
+				$("[name=backgroundColor]").val(evt.backgroundColor)
+				$("[name=textColor]").val(evt.textColor)
+				$("[name=allDay]").val(evt.allDay?1:0)
+				$("[name=urlLink]").val(evt.extendedProps.urlLink)
+			
+				
+				$("#calTitle").text("일정상세")
+				$("#regBtn").hide();  $("#uptBtn").show(); $("#delBtn").show();
+				$("#calModal").click()
 			},
 			editable : true,
 			dayMaxEvents : true, // allow "more" link when too many events
@@ -120,6 +149,8 @@ body {
 					success : function(data) {
 						console.log(data.callist)
 						//alert(data.callist.length+"건!!")
+						// 서버단에서 받은 json 데이터를 
+						// calendar api에 할당 처리..
 						successCallback(data.callist)
 					},
 					error : function(err) {
@@ -132,6 +163,58 @@ body {
 		});
 
 		calendar.render();
+
+		$("#regBtn").click(function() {
+			ajaxFun("insertCalendar.do","post")
+		})
+		$("#uptBtn").click(function(){
+			alert($("#frm01").serialize())
+			if(confirm("수정하실?")){
+				ajaxFun("updateCalendar.do","post")
+			}
+		})
+		
+		$("#delBtn").click(function(){
+			if(confirm("삭제하실?")){
+				ajaxFun("deleteCal.do","post")
+			}
+		})
+		
+		$("[name=urlLink]").dblclick(function(){
+			if(confirm("페이지로 이동?")){
+				window.open($(this).val(),"","")
+			}
+		})
+		
+		function ajaxFun(url,type){
+			$.ajax({
+				type : type,
+				url : "${path}/"+url,
+				data : $("#frm01").serialize(),
+				// 데이터를 입력하고 요청데이터 서버에 전송
+				dataType : "json",
+
+				success : function(data) {
+					// 해당 controller에서 다시 모델데이터로 넘겨준 데이터
+					// d.addAttribute("msg", service.insertCalendar(ins));
+					// 등록 후, 전체 데이터 json데이터로 가지고 있음..
+					// d.addAttribute("callist", service.getCalList());									
+					console.log(data)
+					alert(data.msg) // 등록성공/등록실패
+					$("#clsBtn").click() // 등록 모달창 닫기..
+					// 기존일정 삭제(full api에 등록된 데이터 삭제 js) 
+					calendar.removeAllEvents();
+					console.log(data.callist)
+					// 새로운 일정 추가..(서버에서 controller로 넘겨오 데이터)
+					// 다시 추가 처리..
+					calendar.addEventSource(data.callist)
+				},
+				error : function(err) {
+					console.log(err)
+				}
+			})			
+		}
+		
 	});
 </script>
 
@@ -156,6 +239,11 @@ body {
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
+				<!-- 
+				$("#calTitle").text("일정등록")
+				$("#regBtn").show();  $("#uptBtn").hide(); $("#delBtn").hide();
+				$("#calModal").click()
+				  -->
 					<h5 class="modal-title" id="calTitle">일정등록</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -164,6 +252,7 @@ body {
 				</div>
 				<div class="modal-body">
 					<form id="frm01" class="form" method="post">
+					<input type="hidden" name="id" value="0"/>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend ">
 								<span class="input-group-text  justify-content-center">
@@ -233,41 +322,20 @@ body {
 								<span class="input-group-text  justify-content-center">
 									참고 link</span>
 							</div>
-							<input type="text" name="url" class="form-control" value="" />
+							<input type="text" name="urlLink" class="form-control" value="" />
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
+				<!--  $("#regBtn").hide();  $("#uptBtn").show(); $("#delBtn").show(); -->
+				<!--  $("#regBtn").show();  $("#uptBtn").hide(); $("#delBtn").hide(); -->
 					<button type="button" id="regBtn" class="btn btn-primary">일정등록</button>				
+					<button type="button" id="uptBtn" class="btn btn-info">일정수정</button>				
+					<button type="button" id="delBtn" class="btn btn-warning">일정삭제</button>				
 					<button type="button" id="clsBtn"  class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
 				</div>
-				<script type="text/javascript">
-					$("#regBtn").click(function(){
-						//if(confirm("일정등록하시겠습니까?")){
-							//alert( $("#frm01").serialize())
-							$.ajax({
-								type:"post",
-								url:"${path}/insertCalendar.do",
-								data:$("#frm01").serialize(),
-								dataType:"json",
-								success:function(data){
-									console.log(data)
-									alert( data.msg )
-									$("#clsBtn").click()
-									// 기존일정 삭제
-									calendar.removeAllEvents();
-									console.log(data.callist)
-									// 새로운 일정 추가..
-									calendar.addEventSource(data.callist)				
-								},
-								error:function(err){
-									console.log(err)
-								}
-							})
-						//}
-					})
-				</script>
+				
 			</div>
 		</div>
 	</div>

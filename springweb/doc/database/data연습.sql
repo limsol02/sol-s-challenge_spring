@@ -160,3 +160,18 @@ class Calendar
 		to_char(start1,'YYYY-MM-DD"T"HH24:MI:SS"+09:00"') end1, content, backgroundcolor, textcolor, allday, url from calendar;
 		
 	UPDATE CALENDAR SET url=' ';
+	
+UPDATE calendar SET title='변경', start1 = to_date('2024-01-20T12:00:00+09:00','YYYY-MM-DD"T"HH24:MI:SS"+09:00"'),
+end1 = to_date('2024-01-21T12:00:00+09:00','YYYY-MM-DD"T"HH24:MI:SS"+09:00"'),CONTENT = '내용변경', WRITER = '홍길동(변경)',
+BACKGROUNDCOLOR = ' ', TEXTCOLOR = ' ', allDay = 1, url='http://www.naver.com' WHERE id=7;
+
+/*
+UPDATE calendar SET title=#{title}, start1 = to_date(#{start},'YYYY-MM-DD"T"HH24:MI:SS"+09:00"'),
+end1 = to_date(#{end},'YYYY-MM-DD"T"HH24:MI:SS"+09:00"'),CONTENT = #{content}, WRITER = #{writer},
+BACKGROUNDCOLOR = #{backgroundColor}, TEXTCOLOR = #{textColor}, allDay = 1, url=#{urlLink} WHERE id=#{id};
+
+int ipdateCalendar(Calendar upt);
+ * */
+
+
+

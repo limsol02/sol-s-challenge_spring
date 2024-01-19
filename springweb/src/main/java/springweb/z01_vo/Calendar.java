@@ -10,12 +10,12 @@ public class Calendar {
 	private String backgroundColor;
 	private String textColor;
 	private boolean allDay;
-	private String url;
+	private String urlLink;
 	public Calendar() {
 		// TODO Auto-generated constructor stub
 	}
 	public Calendar(int id, String title, String start, String end, String writer, String content,
-			String backgroundColor, String textColor, boolean allDay, String url) {
+			String backgroundColor, String textColor, boolean allDay, String urlLink) {
 		this.id = id;
 		this.title = title;
 		this.start = start;
@@ -25,7 +25,7 @@ public class Calendar {
 		this.backgroundColor = backgroundColor;
 		this.textColor = textColor;
 		this.allDay = allDay;
-		this.url = url;
+		this.urlLink = urlLink;
 	}
 	public int getId() {
 		return id;
@@ -81,11 +81,11 @@ public class Calendar {
 	public void setAllDay(boolean allDay) {
 		this.allDay = allDay;
 	}
-	public String getUrl() {
-		return url;
+	public String getUrlLink() {
+		return urlLink;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setUrlLink(String urlLink) {
+		this.urlLink = urlLink;
 	}
 	
 }
